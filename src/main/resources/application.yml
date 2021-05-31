@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    hikari.maximum-pool-size: 4
+    url: jdbc:postgresql://localhost:5432/kiosk
+    username: kiosk
+    password: kiosk
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
