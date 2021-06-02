@@ -1,11 +1,12 @@
 package blowest.kiosk.entity;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 
 @Entity
-public class StoreInfo {
+public class TopMenu {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -13,20 +14,12 @@ public class StoreInfo {
 
     private String name;
 
-    private Boolean isActive;
+    private boolean activated;
 
-    protected StoreInfo() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Boolean getActive() {
-        return isActive;
+    protected TopMenu() {
     }
 }
