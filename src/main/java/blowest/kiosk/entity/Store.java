@@ -1,5 +1,6 @@
 package blowest.kiosk.entity;
 
+import blowest.kiosk.entity.base.BaseTimeEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Store {
+public class Store extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
