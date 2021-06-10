@@ -20,4 +20,12 @@ public class BaseTimeEntity {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
+    public LocalDate getCreatedTime() {
+        return createdTime;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 }

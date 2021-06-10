@@ -25,6 +25,11 @@ public class Store extends BaseTimeEntity {
     protected Store() {
     }
 
+    public Store(String name, boolean activated) {
+        this.name = name;
+        this.activated = activated;
+    }
+
     public Long getId() {
         return id;
     }
