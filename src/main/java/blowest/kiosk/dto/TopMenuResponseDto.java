@@ -4,11 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-public class StoreResponseDto {
+public class TopMenuResponseDto {
 
     private Long id;
 
     private String name;
+
+    @JsonProperty("store_id")
+    private Long storeId;
 
     @JsonProperty("created_date")
     private LocalDateTime createdDate;
@@ -16,20 +19,24 @@ public class StoreResponseDto {
     @JsonProperty("last_modified_date")
     private LocalDateTime lastModifiedDate;
 
-    public StoreResponseDto(Long id, String name, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+    public TopMenuResponseDto(Long id, String name, Long storeId, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
         this.id = id;
         this.name = name;
+        this.storeId = storeId;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    // Getter가 없으면 Json으로 변환되지 못함
     public Long getId() {
         return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Long getStoreId() {
+        return storeId;
     }
 
     public LocalDateTime getCreatedDate() {

@@ -2,7 +2,6 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
-import blowest.kiosk.entity.Store;
 import blowest.kiosk.repository.StoreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,14 +31,14 @@ public class StoreService {
     public List<StoreResponseDto> retrieveAllStores() {
         return storeRepository.findAllByActivatedTrue()
                 .stream()
-                .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedTime(), x.getLastModifiedDate()))
+                .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public StoreResponseDto retrieveStore(Long id) {
         return storeRepository.findByIdAndActivatedTrue(id)
-                .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedTime(), x.getLastModifiedDate()))
+                .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
 
@@ -74,7 +73,7 @@ public class StoreService {
 
     @Transactional
     public void activateStore(Long id) {
-        var store = storeRepository.findByIdAndActivatedTrue(id);
+        var store = storeRepository.findByIdAndActivatedFalse(id);
 
         if (!store.isPresent()) {
             return;

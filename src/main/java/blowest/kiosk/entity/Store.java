@@ -42,6 +42,10 @@ public class Store extends BaseTimeEntity {
         return activated;
     }
 
+    public List<TopMenu> getTopMenus() {
+        return topMenus;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

@@ -52,15 +52,14 @@ public class StoreController {
         return storeService.updateStore(id, requestDto);
     }
 
-    @DeleteMapping("/store/deactivate/{id}")
+    @DeleteMapping("/store/{id}/deactivate")
     public void deactivateStore(@PathVariable Long id) {
         storeService.deactivateStore(id);
         return;
     }
 
-    @PatchMapping("/store/activate/{id}")
+    @PatchMapping("/store/{id}/activate")
     public void activateStore(@PathVariable Long id) {
         storeService.activateStore(id);
-
     }
 }
