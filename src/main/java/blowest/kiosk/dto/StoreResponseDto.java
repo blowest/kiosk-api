@@ -1,7 +1,5 @@
 package blowest.kiosk.dto;
 
-import org.springframework.data.annotation.LastModifiedDate;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -11,11 +9,11 @@ public class StoreResponseDto {
 
     private String name;
 
-    private LocalDate createdTime;
+    private LocalDateTime createdTime;
 
     private LocalDateTime lastModifiedDate;
 
-    public StoreResponseDto(Long id, String name, LocalDate createdTime, LocalDateTime lastModifiedDate) {
+    public StoreResponseDto(Long id, String name, LocalDateTime createdTime, LocalDateTime lastModifiedDate) {
         this.id = id;
         this.name = name;
         this.createdTime = createdTime;
@@ -31,7 +29,7 @@ public class StoreResponseDto {
         return name;
     }
 
-    public LocalDate getCreatedTime() {
+    public LocalDateTime getCreatedTime() {
         return createdTime;
     }
 

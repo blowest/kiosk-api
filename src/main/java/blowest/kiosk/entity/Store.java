@@ -41,4 +41,12 @@ public class Store extends BaseTimeEntity {
     public boolean isActivated() {
         return activated;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 }

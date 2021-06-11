@@ -16,12 +16,12 @@ public class BaseTimeEntity {
 
     @CreatedDate
     @Column(updatable = false)
-    private LocalDate createdTime;
+    private LocalDateTime createdTime;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    public LocalDate getCreatedTime() {
+    public LocalDateTime getCreatedTime() {
         return createdTime;
     }
 
