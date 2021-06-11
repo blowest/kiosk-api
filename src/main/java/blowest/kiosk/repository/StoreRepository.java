@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
-    List<Store> findAllByActivated(boolean activated);
+    List<Store> findAllByActivatedTrue();
 
-    Optional<Store> findByIdAndActivated(Long id, boolean activated);
+    Optional<Store> findByIdAndActivatedTrue(Long id);
 
 }
