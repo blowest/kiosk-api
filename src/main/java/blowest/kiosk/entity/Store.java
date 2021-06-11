@@ -25,6 +25,11 @@ public class Store extends BaseTimeEntity {
     protected Store() {
     }
 
+    public Store(String name, boolean activated) {
+        this.name = name;
+        this.activated = activated;
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,5 +40,17 @@ public class Store extends BaseTimeEntity {
 
     public boolean isActivated() {
         return activated;
+    }
+
+    public List<TopMenu> getTopMenus() {
+        return topMenus;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 }
