@@ -2,12 +2,13 @@
 *Kiosk 프로젝트의 API server 저장소 입니다.*
 
 ## Todos
-1. AWS server 띄우기
-2. 예외처리 후 ResponseEntity적용
-3. Test Code
-4. REST API URI 짓는법
-5. Lombok 적용
-6. DB 변경?
+1. Swagger 추가
+2. AWS server 띄우기
+3. 예외처리 후 ResponseEntity적용
+4. Test Code
+5. REST API URI 짓는법
+6. Lombok 적용
+7. DB 변경?
 
 
 ## Tech Stack
