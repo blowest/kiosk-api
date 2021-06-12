@@ -2,7 +2,6 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.TopMenuRequestDto;
 import blowest.kiosk.dto.TopMenuResponseDto;
-import blowest.kiosk.entity.TopMenu;
 import blowest.kiosk.repository.StoreRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import org.springframework.stereotype.Service;
