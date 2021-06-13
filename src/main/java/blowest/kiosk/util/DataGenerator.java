@@ -1,7 +1,9 @@
 package blowest.kiosk.util;
 
+import blowest.kiosk.entity.MenuType;
 import blowest.kiosk.entity.Store;
 import blowest.kiosk.entity.TopMenu;
+import blowest.kiosk.repository.MenuTypeRepository;
 import blowest.kiosk.repository.StoreRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import org.springframework.boot.ApplicationArguments;
@@ -15,9 +17,12 @@ public class DataGenerator implements ApplicationRunner {
 
     private final TopMenuRepository topMenuRepository;
 
-    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository) {
+    private final MenuTypeRepository menuTypeRepository;
+
+    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository) {
         this.storeRepository = storeRepository;
         this.topMenuRepository = topMenuRepository;
+        this.menuTypeRepository = menuTypeRepository;
     }
 
     @Override
@@ -35,5 +40,8 @@ public class DataGenerator implements ApplicationRunner {
         topMenuRepository.save(new TopMenu("사이드", true, burgerking));
         topMenuRepository.save(new TopMenu("음료&디저트", true, burgerking));
 
+        menuTypeRepository.save(new MenuType("버거",true));
+        menuTypeRepository.save(new MenuType("사이드",true));
+        menuTypeRepository.save(new MenuType("음료",true));
     }
 }
