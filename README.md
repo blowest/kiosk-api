@@ -15,12 +15,14 @@
 7. DB 변경?
 8. OverFitting, UnderFitting 문제 해결
 9. APM(Naver-PinPoint) 적용
-
+10. 프로젝트 끝난 후 프로젝트 정리
 
 ## Tech Stack
 * Spring Boot 2.4.6
 * Spring Data JPA 2.4.6
 * Postgres 13.2
+* Swagger
+
 
 ## Content
 
