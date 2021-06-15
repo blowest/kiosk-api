@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class TopMenu extends BaseTimeEntity {
     private Store store;
 
     @OneToMany(mappedBy = "topMenu")
-    private List<Menu> menus;
+    private List<Menu> menus = new ArrayList<>();
 
     protected TopMenu() {
     }
