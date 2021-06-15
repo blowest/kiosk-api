@@ -6,8 +6,8 @@
 2. IOC, DI
 
 ## Todos
-1. Swagger 추가
-2. AWS server 배포 
+1. ~~Swagger 추가~~
+2. ~~AWS server 배포~~ 
 3. 예외처리 후 ResponseEntity적용
 4. Test Code
 5. REST API URI 짓는법
