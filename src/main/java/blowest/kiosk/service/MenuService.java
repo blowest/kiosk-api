@@ -88,6 +88,7 @@ public class MenuService {
         return;
     }
 
+    @Transactional
     public void activate(Long id) {
         var menu = menuRepository.findByIdAndActivatedFalse(id).orElse(null);
         menu.setActivated(true);
