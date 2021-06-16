@@ -18,12 +18,13 @@
 ## Todos
 1. ~~Swagger 추가~~
 2. ~~AWS server 배포~~
-3. 예외처리 후 ResponseEntity적용
-4. Test Code
-5. REST API URI 짓는법
-6. Lombok 적용
-7. DB 변경?
-8. OverFitting, UnderFitting 문제 해결
-9. APM(Naver-PinPoint) 적용
-10. 프로젝트 끝난 후 프로젝트 정리
+3. Entity Class의 다이어그램과 협력관계 다이어그램 
+4. 예외처리 후 ResponseEntity적용
+5. Test Code
+6. REST API URI 짓는법
+7. Lombok 적용
+8. DB 변경?
+9. OverFitting, UnderFitting 문제 해결
+10. APM(Naver-PinPoint) 적용
+11. 프로젝트 끝난 후 프로젝트 정리
 
