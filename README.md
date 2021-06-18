@@ -19,7 +19,7 @@
 1. ~~Swagger 추가~~
 2. ~~AWS server 배포~~
 3. Entity Class의 다이어그램과 협력관계 다이어그램 
-4. 예외처리 후 ResponseEntity적용
+4. 예외처리 후 ResponseEntity, HTTP status code 적용
 5. Test Code
 6. REST API URI 짓는법
 7. Lombok 적용
