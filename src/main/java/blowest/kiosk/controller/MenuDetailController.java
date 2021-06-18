@@ -17,7 +17,7 @@ public class MenuDetailController {
         this.menuDetailService = menuDetailService;
     }
 
-    @PostMapping("/menu_detail")
+    @PostMapping("/menu_details")
     public Long create(@RequestBody MenuDetailRequestDto requestDto){
         return menuDetailService.create(requestDto);
     }
@@ -27,22 +27,22 @@ public class MenuDetailController {
         return menuDetailService.retrieveAll();
     }
 
-    @GetMapping("/menu_detail/{id}")
+    @GetMapping("/menu_details/{id}")
     public MenuDetailResponseDto retrieve(@PathVariable Long id){
         return menuDetailService.retrieve(id);
     }
 
-    @PatchMapping("/menu_detail/{id}")
+    @PatchMapping("/menu_details/{id}")
     public Long update(@PathVariable Long id, @RequestBody MenuDetailRequestDto requestDto) {
         return menuDetailService.update(id,requestDto);
     }
 
-    @DeleteMapping("/menu_detail/{id}/deactivate")
+    @DeleteMapping("/menu_details/{id}")
     public Long deactivate(@PathVariable Long id) {
         return menuDetailService.deactivate(id);
     }
 
-    @PatchMapping("/menu_detail/{id}/activate")
+    @PatchMapping("/menu_details/{id}/activate")
     public Long activate(@PathVariable Long id){
         return menuDetailService.activate(id);
     }
