@@ -50,7 +50,7 @@ public class StoreController {
         return storeService.updateStore(id, requestDto);
     }
 
-    @DeleteMapping("/stores/{id}/deactivate")
+    @DeleteMapping("/stores/{id}")
     public void deactivateStore(@PathVariable Long id) {
         storeService.deactivateStore(id);
         return;

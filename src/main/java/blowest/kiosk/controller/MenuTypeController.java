@@ -49,7 +49,7 @@ public class MenuTypeController {
         return menuTypeService.updateMenuType(id, requestDto);
     }
 
-    @DeleteMapping("/menu_types/{id}/deactivate")
+    @DeleteMapping("/menu_types/{id}")
     public void deactivateMenuType(@PathVariable Long id){
         menuTypeService.deactivateMenuType(id);
     }

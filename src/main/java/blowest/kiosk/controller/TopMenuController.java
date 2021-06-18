@@ -38,7 +38,7 @@ public class TopMenuController {
         return topMenuService.update(id, requestDto);
     }
 
-    @DeleteMapping("/top_menus/{id}/deactivate")
+    @DeleteMapping("/top_menus/{id}")
     public Long deactivate(@PathVariable Long id) {
         return topMenuService.deactivate(id);
     }

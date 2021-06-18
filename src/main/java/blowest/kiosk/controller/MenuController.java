@@ -37,7 +37,7 @@ public class MenuController {
         return menuService.update(id, requestDto);
     }
 
-    @DeleteMapping("/menus/{id}/deactivate")
+    @DeleteMapping("/menus/{id}")
     public void deactivateStore(@PathVariable Long id) {
         menuService.deactivate(id);
         return;
