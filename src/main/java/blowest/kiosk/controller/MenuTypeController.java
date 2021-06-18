@@ -26,35 +26,35 @@ public class MenuTypeController {
     }
 
 
-    @GetMapping("/menutype/test")
+    @GetMapping("/menutypes/test")
     public String test(){return "Test";}
 
-    @PostMapping("/menutype")
+    @PostMapping("/menutypes")
     public Long create(@RequestBody MenuTypeRequestDto request){
         return menuTypeService.createMenuType(request);
     }
 
-    @GetMapping("/menutype")
+    @GetMapping("/menutypes")
     public List<MenuTypeResponseDto> findAll(){
         return menuTypeService.retrieveAllMenuTypes();
     }
 
-    @GetMapping("/menutype/{id}")
+    @GetMapping("/menutypes/{id}")
     public MenuTypeResponseDto findMenuType(@PathVariable Long id){
         return menuTypeService.retrieveMenuType(id);
     }
 
-    @PatchMapping("/menutype/{id}")
+    @PatchMapping("/menutypes/{id}")
     public Long updateMenuType(@PathVariable Long id, @RequestBody MenuTypeRequestDto requestDto){
         return menuTypeService.updateMenuType(id, requestDto);
     }
 
-    @DeleteMapping("/menutype/{id}/deactivate")
+    @DeleteMapping("/menutypes/{id}/deactivate")
     public void deactivateMenuType(@PathVariable Long id){
         menuTypeService.deactivateMenuType(id);
     }
 
-    @PatchMapping("/menutype/{id}/activate")
+    @PatchMapping("/menutypes/{id}/activate")
     public void activateMenuType(@PathVariable Long id){
         menuTypeService.activateMenuType(id);
     }

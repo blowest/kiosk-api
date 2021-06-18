@@ -18,7 +18,7 @@ public class TopMenuController {
         this.topMenuService = topMenuService;
     }
 
-    @PostMapping("/top_menu")
+    @PostMapping("/top_menus")
     public Long create(@RequestBody TopMenuRequestDto requestDto) {
         return topMenuService.create(requestDto);
     }
@@ -28,22 +28,22 @@ public class TopMenuController {
         return topMenuService.retrieveAll();
     }
 
-    @GetMapping("/top_menu/{id}")
+    @GetMapping("/top_menus/{id}")
     public TopMenuResponseDto retrieve(@PathVariable Long id) {
         return topMenuService.retrieve(id);
     }
 
-    @PatchMapping("/top_menu/{id}")
+    @PatchMapping("/top_menus/{id}")
     public Long update(@PathVariable Long id, @RequestBody TopMenuRequestDto requestDto) {
         return topMenuService.update(id, requestDto);
     }
 
-    @DeleteMapping("/top_menu/{id}/deactivate")
+    @DeleteMapping("/top_menus/{id}/deactivate")
     public Long deactivate(@PathVariable Long id) {
         return topMenuService.deactivate(id);
     }
 
-    @PatchMapping("/top_menu/{id}/activate")
+    @PatchMapping("/top_menus/{id}/activate")
     public Long activate(@PathVariable Long id) {
         return topMenuService.activate(id);
     }
