@@ -25,38 +25,38 @@ public class StoreController {
         this.em = em;
     }
 
-    @GetMapping("/store/test")
+    @GetMapping("/stores/test")
     public String test() {
         return "Test";
     }
 
-    @PostMapping("/store")
+    @PostMapping("/stores")
     public Long create(@RequestBody StoreRequestDto request) {
         return storeService.createStore(request);
     }
 
-    @GetMapping("/store")
+    @GetMapping("/stores")
     public List<StoreResponseDto> findAll() {
         return storeService.retrieveAllStores();
     }
 
-    @GetMapping("/store/{id}")
+    @GetMapping("/stores/{id}")
     public StoreResponseDto findStore(@PathVariable Long id) {
         return storeService.retrieveStore(id);
     }
 
-    @PatchMapping("/store/{id}")
+    @PatchMapping("/stores/{id}")
     public Long updateStore(@PathVariable Long id, @RequestBody StoreRequestDto requestDto) {
         return storeService.updateStore(id, requestDto);
     }
 
-    @DeleteMapping("/store/{id}/deactivate")
+    @DeleteMapping("/stores/{id}")
     public void deactivateStore(@PathVariable Long id) {
         storeService.deactivateStore(id);
         return;
     }
 
-    @PatchMapping("/store/{id}/activate")
+    @PatchMapping("/stores/{id}/activate")
     public void activateStore(@PathVariable Long id) {
         storeService.activateStore(id);
     }
