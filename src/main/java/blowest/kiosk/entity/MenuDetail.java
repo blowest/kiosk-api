@@ -22,4 +22,52 @@ public class MenuDetail extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private Menu menu;
+
+    protected MenuDetail(){
+    }
+
+    public MenuDetail(String name, Integer cost, String imagePath, boolean activated, Menu menu){
+        this.name = name;
+        this.cost = cost;
+        this.imagePath = imagePath;
+        this.activated = activated;
+        this.setMenu(menu);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+//        menu.getMenuDetails().add(this); 이부분을 없애야 오류가 안납니다.. 이유를 모르겠어요..
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 }

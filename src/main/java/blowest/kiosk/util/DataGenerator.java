@@ -1,13 +1,7 @@
 package blowest.kiosk.util;
 
-import blowest.kiosk.entity.Menu;
-import blowest.kiosk.entity.MenuType;
-import blowest.kiosk.entity.Store;
-import blowest.kiosk.entity.TopMenu;
-import blowest.kiosk.repository.MenuRepository;
-import blowest.kiosk.repository.MenuTypeRepository;
-import blowest.kiosk.repository.StoreRepository;
-import blowest.kiosk.repository.TopMenuRepository;
+import blowest.kiosk.entity.*;
+import blowest.kiosk.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -23,11 +17,14 @@ public class DataGenerator implements ApplicationRunner {
 
     private final MenuRepository menuRepository;
 
-    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository, MenuRepository menuRepository) {
+    private final MenuDetailRepository menuDetailRepository;
+
+    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository, MenuRepository menuRepository, MenuDetailRepository menuDetailRepository) {
         this.storeRepository = storeRepository;
         this.topMenuRepository = topMenuRepository;
         this.menuTypeRepository = menuTypeRepository;
         this.menuRepository = menuRepository;
+        this.menuDetailRepository = menuDetailRepository;
     }
 
     @Override
@@ -49,9 +46,14 @@ public class DataGenerator implements ApplicationRunner {
         var sideType = menuTypeRepository.save(new MenuType("사이드", true));
         var beverageType = menuTypeRepository.save(new MenuType("음료", true));
 
-        menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, burgerType));
-        menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, burgerType));
-        menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, sideType));
-        menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, beverageType));
+        var guinnessWhopper = menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, burgerType));
+        var monsterWhopper = menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, burgerType));
+        var cheeseStick = menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, sideType));
+        var coke =  menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, beverageType));
+
+        menuDetailRepository.save(new MenuDetail("기네스와퍼", 8500, "./images/xxx", true, guinnessWhopper));
+        menuDetailRepository.save(new MenuDetail("몬스터와퍼", 8500,"./images/xxx",true, monsterWhopper));
+        menuDetailRepository.save(new MenuDetail("치즈스틱",2200, "./images/xxx",true, cheeseStick));
+        menuDetailRepository.save(new MenuDetail("콜라", 2000, "./images/xxx", true, coke));
     }
 }
