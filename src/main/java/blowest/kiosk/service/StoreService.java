@@ -2,12 +2,15 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
+import blowest.kiosk.entity.Store;
 import blowest.kiosk.repository.StoreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,8 +32,11 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public List<StoreResponseDto> retrieveAllStores() {
-        return storeRepository.findAllByActivatedTrue()
-                .stream()
+        var stores = storeRepository.findAllByActivatedTrue();
+        if (stores.isEmpty()) {
+            throw new NoResultException("등록된 매장정보가 없습니다.");
+        }
+        return stores.stream()
                 .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
