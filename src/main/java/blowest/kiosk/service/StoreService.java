@@ -57,7 +57,7 @@ public class StoreService {
         }
 
         var storeRetrieved = store.get();
-        storeRetrieved.setName(requestDto.getName());
+        storeRetrieved.update(requestDto.getName());
         em.flush();
         em.clear();
 
@@ -71,7 +71,7 @@ public class StoreService {
         if (!store.isPresent()) {
             return;
         }
-        store.get().setActivated(false);
+        store.get().updateActivation(false);
         em.flush();
         em.clear();
         return;
@@ -85,7 +85,7 @@ public class StoreService {
             return;
         }
 
-        store.get().setActivated(true);
+        store.get().updateActivation(true);
         em.flush();
         em.clear();
         return;

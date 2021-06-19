@@ -1,6 +1,8 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Store extends BaseTimeEntity {
 
     @Id
@@ -30,27 +33,11 @@ public class Store extends BaseTimeEntity {
         this.activated = activated;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public List<TopMenu> getTopMenus() {
-        return topMenus;
-    }
-
-    public void setName(String name) {
+    public void update(String name) {
         this.name = name;
     }
 
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void updateActivation(boolean activated) {
+        this.activated =  activated;
     }
 }
