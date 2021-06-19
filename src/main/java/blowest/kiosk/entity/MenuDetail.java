@@ -60,7 +60,7 @@ public class MenuDetail extends BaseTimeEntity {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
-//        menu.getMenuDetails().add(this); 이부분을 없애야 오류가 안납니다.. 이유를 모르겠어요..
+        menu.getMenuDetails().add(this);
     }
 
     public void setName(String name) {

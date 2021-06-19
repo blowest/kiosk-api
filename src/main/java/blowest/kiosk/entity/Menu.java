@@ -3,6 +3,7 @@ package blowest.kiosk.entity;
 import blowest.kiosk.entity.base.BaseTimeEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Menu extends BaseTimeEntity {
     private MenuType menuType;
 
     @OneToMany(mappedBy = "menu")
-    private List<MenuDetail> menuDetails;
+    private List<MenuDetail> menuDetails = new ArrayList<>();
 
     protected Menu() {
     }
