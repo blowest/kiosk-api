@@ -20,7 +20,7 @@
 2. ~~AWS server 배포~~
 3. DB 수정
 3. Entity Class의 다이어그램과 협력관계 다이어그램
-5. Validation 적용
+5. Validation, enum, @embedded, static constructor, dirty checking 적용
 4. 예외처리 후 ResponseEntity, HTTP status code 적용
 7. Lombok 적용
 5. 페이징 처리
