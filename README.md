@@ -26,7 +26,6 @@
 5. 페이징 처리
 5. Test Code
 6. REST API URI 짓는법
-8. DB 변경?
 9. OverFitting, UnderFitting 문제 해결
 10. APM(Naver-PinPoint) 적용
 11. 프로젝트 끝난 후 프로젝트 정리

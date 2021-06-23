@@ -11,13 +11,13 @@ import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-    @Query("select m from Menu m where m.activationStatus = 'ACTIVATED'")
+    @Query("select m from Menu m where m.activationStatus = 'ACTIVATED' order by m.id asc")
     List<Menu> findAllActivated();
-//
+
     @Query("select m from Menu m where m.id = :id and m.activationStatus = 'ACTIVATED'")
     Optional<Menu> findOneActivated(@Param("id") Long id);
 
     @Query("select m from Menu m where m.id = :id and m.activationStatus = 'DEACTIVATED'")
-    Optional<Menu> findOneDeactivated(Long id);
+    Optional<Menu> findOneDeactivated(@Param("id") Long id);
 
 }

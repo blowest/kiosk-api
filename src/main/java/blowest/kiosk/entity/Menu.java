@@ -16,7 +16,7 @@ import java.util.List;
 public class Menu extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "menu_id")
     private Long id;
 
     private String imagePath;
@@ -39,16 +39,7 @@ public class Menu extends BaseTimeEntity {
     @OneToMany(mappedBy = "menu")
     private List<MenuDetail> menuDetails = new ArrayList<>();
 
-//    public Menu(String imagePath, boolean best, Integer minimumCost, boolean activated, TopMenu topMenu, MenuType menuType) {
-//        this.imagePath = imagePath;
-//        this.best = best;
-//        this.minimumCost = minimumCost;
-//        this.activated = activated;
-//        setMenuType(menuType);
-//        setTopMenu(topMenu);
-//    }
-
-    public static Menu createMenu(String imagePath, boolean best, Integer minimumCost, ActivationStatus activated, TopMenu topMenu, MenuType menuType) {
+    public static Menu construct(String imagePath, boolean best, Integer minimumCost, ActivationStatus activated, TopMenu topMenu, MenuType menuType) {
         var menu = new Menu();
         menu.imagePath = imagePath;
         menu.best = best;

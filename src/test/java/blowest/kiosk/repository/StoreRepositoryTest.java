@@ -19,7 +19,7 @@ class StoreRepositoryTest {
 
     @Test
     public void testFindStoreActivated() {
-        var allByActivated = storeRepository.findAllByActivatedTrue();
+        var allByActivated = storeRepository.findAllActivated();
         assertThat(allByActivated.size()).isEqualTo(4);
     }
 }

@@ -6,10 +6,6 @@ import blowest.kiosk.entity.TopMenu;
 import blowest.kiosk.entity.status.ActivationStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 public class MenuRequestDto {
 
     @JsonProperty("image_path")
@@ -48,7 +44,7 @@ public class MenuRequestDto {
 
     public Menu toEntity(MenuRequestDto menuRequestDto, TopMenu topMenu, MenuType menuType) {
 
-        return Menu.createMenu(menuRequestDto.getImagePath(),
+        return Menu.construct(menuRequestDto.getImagePath(),
                 false,
                 menuRequestDto.getMinimumCost(),
                 ActivationStatus.ACTIVATED,

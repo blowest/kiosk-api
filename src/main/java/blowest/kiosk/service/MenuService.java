@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class MenuService {
 
     @Transactional
     public Long create(MenuRequestDto requestDto) {
-        var topMenu = topMenuRepository.findByIdAndActivatedTrue(requestDto.getTopMenuId()).orElse(null);
+        var topMenu = topMenuRepository.findOneActivated(requestDto.getTopMenuId()).orElse(null);
         var menuType = menuTypeRepository.findByIdAndActivatedTrue(requestDto.getMenuTypeId()).orElse(null);
 
         // Todo

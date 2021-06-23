@@ -31,7 +31,7 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public List<StoreResponseDto> retrieveAllStores() {
-        var stores = storeRepository.findAllByActivatedTrue();
+        var stores = storeRepository.findAllActivated();
 
         if (stores.isEmpty()) {
             throw new NoResultException("등록된 매장정보가 없습니다.");
@@ -43,7 +43,7 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public StoreResponseDto retrieveStore(Long id) {
-        var stores = storeRepository.findByIdAndActivatedTrue(id);
+        var stores = storeRepository.findOneActivated(id);
 
         if (!stores.isPresent()){
             throw new NoResultException("해당 매장 정보가 없습니다.");
@@ -55,7 +55,7 @@ public class StoreService {
 
     @Transactional
     public Long updateStore(Long id, StoreRequestDto requestDto) {
-        var store = storeRepository.findByIdAndActivatedTrue(id);
+        var store = storeRepository.findOneActivated(id);
 
         if (!store.isPresent()) {
             throw new NoResultException("해당 매장 정보가 없습니다.");
@@ -69,7 +69,7 @@ public class StoreService {
 
     @Transactional
     public void deactivateStore(Long id) {
-        var store = storeRepository.findByIdAndActivatedTrue(id);
+        var store = storeRepository.findOneActivated(id);
 
         if (!store.isPresent()) {
             throw new NoResultException("해당 매장 정보가 없습니다.");
@@ -81,7 +81,7 @@ public class StoreService {
 
     @Transactional
     public void activateStore(Long id) {
-        var store = storeRepository.findByIdAndActivatedFalse(id);
+        var store = storeRepository.findOneDeactivated(id);
 
         if (!store.isPresent()) {
             throw new NoResultException("해당 매장 정보가 없습니다.");

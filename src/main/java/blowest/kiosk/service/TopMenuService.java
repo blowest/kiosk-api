@@ -29,7 +29,7 @@ public class TopMenuService {
 
     @Transactional
     public Long create(TopMenuRequestDto requestDto) {
-        var store = storeRepository.findByIdAndActivatedTrue(requestDto.getStoreId());
+        var store = storeRepository.findOneActivated(requestDto.getStoreId());
         if (!store.isPresent()) {
             throw new NoResultException("해당하는 가게가 없습니다.");
         }
@@ -38,7 +38,7 @@ public class TopMenuService {
 
     @Transactional(readOnly = true)
     public List<TopMenuResponseDto> retrieveAll() {
-        var topMenus = topMenuRepository.findAllByActivatedTrue();
+        var topMenus = topMenuRepository.findAllActivated();
         if (topMenus.isEmpty()){
             throw new NoResultException("등록된 상위메뉴 정보가 없습니다.");
         }
@@ -50,11 +50,11 @@ public class TopMenuService {
 
     @Transactional(readOnly = true)
     public TopMenuResponseDto retrieve(Long id) {
-        var topMenus = topMenuRepository.findByIdAndActivatedTrue(id);
+        var topMenus = topMenuRepository.findOneActivated(id);
         if (!topMenus.isPresent()){
             throw new NoResultException("해당 상위메뉴가 없습니다.");
         }
-        return topMenuRepository.findByIdAndActivatedTrue(id)
+        return topMenuRepository.findOneActivated(id)
                 .map(x -> new TopMenuResponseDto(x.getId(), x.getName(), x.getStore().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
@@ -62,11 +62,11 @@ public class TopMenuService {
 
     @Transactional
     public Long update(Long id, TopMenuRequestDto requestDto) {
-        var storeRetrieved = storeRepository.findByIdAndActivatedTrue(requestDto.getStoreId());
+        var storeRetrieved = storeRepository.findOneActivated(requestDto.getStoreId());
         if (!storeRetrieved.isPresent()){
             throw new NoResultException("해당하는 가게가 없습니다.");
         }
-        var topMenuRetrieved = topMenuRepository.findByIdAndActivatedTrue(id);
+        var topMenuRetrieved = topMenuRepository.findOneActivated(id);
         if (!topMenuRetrieved.isPresent()){
             throw new NoResultException("해당 상위메뉴가 없습니다.");
         }
@@ -80,7 +80,7 @@ public class TopMenuService {
 
     @Transactional
     public Long deactivate(Long id) {
-        var topMenu = topMenuRepository.findByIdAndActivatedTrue(id);
+        var topMenu = topMenuRepository.findOneActivated(id);
         if (!topMenu.isPresent()){
             throw new NoResultException("해당하는 상위메뉴 정보가 없습니다.");
         }
@@ -91,7 +91,7 @@ public class TopMenuService {
 
     @Transactional
     public Long activate(Long id) {
-        var topMenu = topMenuRepository.findByIdAndActivatedFalse(id);
+        var topMenu = topMenuRepository.findOneDeactivated(id);
         if (!topMenu.isPresent()){
             throw new NoResultException("해당하는 상위메뉴 정보가 없습니다.");
         }
