@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class MenuDetailService {
 
     private final MenuRepository menuRepository;
@@ -27,14 +28,13 @@ public class MenuDetailService {
 
     @Transactional
     public Long create(MenuDetailRequestDto requestDto){
-        var menu = menuRepository.findByIdAndActivatedTrue(requestDto.getMenuId());
+        var menu = menuRepository.findById(requestDto.getMenuId());
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
         }
         return menuDetailRepository.save(requestDto.toEntity(menu.get())).getId();
     }
 
-    @Transactional(readOnly = true)
     public List<MenuDetailResponseDto> retrieveAll(){
         var menuDetails = menuDetailRepository.findAllByActivatedTrue();
         if (menuDetails.isEmpty()){
@@ -46,7 +46,6 @@ public class MenuDetailService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public MenuDetailResponseDto retrieve(Long id){
         var menuDetails = menuDetailRepository.findByIdAndActivatedTrue(id);
         if (!menuDetails.isPresent()){
@@ -59,7 +58,7 @@ public class MenuDetailService {
 
     @Transactional
     public Long update(Long id, MenuDetailRequestDto requestDto){
-        var menuRetrieved = menuRepository.findByIdAndActivatedTrue(requestDto.getMenuId());
+        var menuRetrieved = menuRepository.findById(requestDto.getMenuId());
         if (!menuRetrieved.isPresent()){
             throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
         }
@@ -70,8 +69,6 @@ public class MenuDetailService {
 
         menuDetailRetrieved.get().update(requestDto.getName());
         menuDetailRetrieved.get().setMenu(menuRetrieved.get());
-        em.flush();
-        em.clear();
 
         return menuDetailRetrieved.get().getId();
     }
@@ -83,8 +80,6 @@ public class MenuDetailService {
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
         menuDetail.get().updateActivation(false);
-        em.flush();
-        em.clear();
 
         return menuDetail.get().getId();
     }
@@ -96,8 +91,6 @@ public class MenuDetailService {
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
         menuDetail.get().updateActivation(true);
-        em.flush();
-        em.clear();
 
         return menuDetail.get().getId();
     }

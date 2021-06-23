@@ -3,6 +3,7 @@ package blowest.kiosk.dto;
 import blowest.kiosk.entity.Menu;
 import blowest.kiosk.entity.MenuType;
 import blowest.kiosk.entity.TopMenu;
+import blowest.kiosk.entity.status.ActivationStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.FetchType;
@@ -47,10 +48,10 @@ public class MenuRequestDto {
 
     public Menu toEntity(MenuRequestDto menuRequestDto, TopMenu topMenu, MenuType menuType) {
 
-        return new Menu(menuRequestDto.getImagePath(),
+        return Menu.createMenu(menuRequestDto.getImagePath(),
                 false,
                 menuRequestDto.getMinimumCost(),
-                true,
+                ActivationStatus.ACTIVATED,
                 topMenu,
                 menuType);
     }
