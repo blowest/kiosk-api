@@ -6,6 +6,7 @@ import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.MenuTypeRepository;
 import blowest.kiosk.repository.TopMenuRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MenuService {
 
     private final TopMenuRepository topMenuRepository;
@@ -22,15 +24,6 @@ public class MenuService {
     private final MenuTypeRepository menuTypeRepository;
 
     private final MenuRepository menuRepository;
-
-    private final EntityManager em;
-
-    public MenuService(TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository, MenuRepository menuRepository, EntityManager em) {
-        this.topMenuRepository = topMenuRepository;
-        this.menuTypeRepository = menuTypeRepository;
-        this.menuRepository = menuRepository;
-        this.em = em;
-    }
 
     @Transactional
     public Long create(MenuRequestDto requestDto) {
@@ -44,7 +37,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public List<MenuResponseDto> retrieveAll() {
-        var menus = menuRepository.findAll();
+        var menus = menuRepository.findAllActivated();
         if (menus.isEmpty()){
             throw new NoResultException("등록된 메뉴 정보가 없습니다.");
         }
@@ -56,7 +49,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public MenuResponseDto retrieve(Long id) {
-        var menus = menuRepository.findById(id);
+        var menus = menuRepository.findOneActivated(id);
         if (!menus.isPresent()){
             throw new NoResultException("해당하는 메뉴정보가 없습니다.");
         }
@@ -75,7 +68,7 @@ public class MenuService {
         if (!menuType.isPresent()){
             throw new NoResultException("메뉴 타입이 없습니다.");
         }
-        var menu = menuRepository.findById(id);
+        var menu = menuRepository.findOneActivated(id);
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴가 없습니다.");
         }
@@ -91,7 +84,7 @@ public class MenuService {
 
     @Transactional
     public void deactivate(Long id) {
-        var menu = menuRepository.findById(id);
+        var menu = menuRepository.findOneActivated(id);
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴가 없습니다.");
         }
@@ -102,7 +95,7 @@ public class MenuService {
 
     @Transactional
     public void activate(Long id) {
-        var menu = menuRepository.findById(id);
+        var menu = menuRepository.findOneDeactivated(id);
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴가 없습니다.");
         }
