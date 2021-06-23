@@ -24,7 +24,7 @@ public class TopMenuRequestDto {
     }
 
     public void update(TopMenu topMenu, Store store) {
-        topMenu.setName(name);
+        topMenu.update(name);
         topMenu.setStore(store);
     }
 }

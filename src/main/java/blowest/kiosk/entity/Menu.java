@@ -1,12 +1,14 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Menu extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,38 +46,6 @@ public class Menu extends BaseTimeEntity {
         setTopMenu(topMenu);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public boolean isBest() {
-        return best;
-    }
-
-    public Integer getMinimumCost() {
-        return minimumCost;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public TopMenu getTopMenu() {
-        return topMenu;
-    }
-
-    public MenuType getMenuType() {
-        return menuType;
-    }
-
-    public List<MenuDetail> getMenuDetails() {
-        return menuDetails;
-    }
-
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
@@ -88,7 +58,7 @@ public class Menu extends BaseTimeEntity {
         this.minimumCost = minimumCost;
     }
 
-    public void setActivated(boolean activated) {
+    public void updateActivation(boolean activated) {
         this.activated = activated;
     }
 

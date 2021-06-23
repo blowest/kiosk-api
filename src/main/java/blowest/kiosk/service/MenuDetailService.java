@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,14 +29,18 @@ public class MenuDetailService {
     public Long create(MenuDetailRequestDto requestDto){
         var menu = menuRepository.findByIdAndActivatedTrue(requestDto.getMenuId());
         if (!menu.isPresent()){
-            return null;
+            throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
         }
         return menuDetailRepository.save(requestDto.toEntity(menu.get())).getId();
     }
 
     @Transactional(readOnly = true)
     public List<MenuDetailResponseDto> retrieveAll(){
-        return menuDetailRepository.findAllByActivatedTrue()
+        var menuDetails = menuDetailRepository.findAllByActivatedTrue();
+        if (menuDetails.isEmpty()){
+            throw new NoResultException("등록된 상세메뉴 정보가 없습니다.");
+        }
+        return menuDetails
                 .stream()
                 .map(x -> new MenuDetailResponseDto(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
@@ -43,42 +48,58 @@ public class MenuDetailService {
 
     @Transactional(readOnly = true)
     public MenuDetailResponseDto retrieve(Long id){
-        return menuDetailRepository.findByIdAndActivatedTrue(id)
+        var menuDetails = menuDetailRepository.findByIdAndActivatedTrue(id);
+        if (!menuDetails.isPresent()){
+            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
+        }
+        return menuDetails
                 .map(x-> new MenuDetailResponseDto(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
 
     @Transactional
     public Long update(Long id, MenuDetailRequestDto requestDto){
-        var menuRetrieved = menuRepository.findByIdAndActivatedTrue(requestDto.getMenuId()).orElse(null);
-        var menuDetailRetrieved = menuDetailRepository.findByIdAndActivatedTrue(id).orElse(null);
+        var menuRetrieved = menuRepository.findByIdAndActivatedTrue(requestDto.getMenuId());
+        if (!menuRetrieved.isPresent()){
+            throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
+        }
+        var menuDetailRetrieved = menuDetailRepository.findByIdAndActivatedTrue(id);
+        if (!menuDetailRetrieved.isPresent()){
+            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
+        }
 
-        menuDetailRetrieved.setName(requestDto.getName());
-        menuDetailRetrieved.setMenu(menuRetrieved);
+        menuDetailRetrieved.get().update(requestDto.getName());
+        menuDetailRetrieved.get().setMenu(menuRetrieved.get());
         em.flush();
         em.clear();
 
-        return menuDetailRetrieved.getId();
+        return menuDetailRetrieved.get().getId();
     }
 
     @Transactional
     public Long deactivate(Long id){
-        var menuDetail = menuDetailRepository.findByIdAndActivatedTrue(id).orElse(null);
-        menuDetail.setActivated(false);
+        var menuDetail = menuDetailRepository.findByIdAndActivatedTrue(id);
+        if (!menuDetail.isPresent()){
+            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
+        }
+        menuDetail.get().updateActivation(false);
         em.flush();
         em.clear();
 
-        return menuDetail.getId();
+        return menuDetail.get().getId();
     }
 
     @Transactional
     public Long activate(Long id){
-        var menuDetail = menuDetailRepository.findByIdAndActivatedFalse(id).orElse(null);
-        menuDetail.setActivated(true);
+        var menuDetail = menuDetailRepository.findByIdAndActivatedFalse(id);
+        if (!menuDetail.isPresent()){
+            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
+        }
+        menuDetail.get().updateActivation(true);
         em.flush();
         em.clear();
 
-        return menuDetail.getId();
+        return menuDetail.get().getId();
     }
 
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,11 @@ public class MenuTypeService {
 
     @Transactional(readOnly = true)
     public List<MenuTypeResponseDto> retrieveAllMenuTypes(){
-        return menuTypeRepository.findAllByActivatedTrue()
+        var menuTypes = menuTypeRepository.findAllByActivatedTrue();
+        if (menuTypes.isEmpty()){
+            throw new NoResultException("등록된 메뉴타입정보가 없습니다.");
+        }
+        return menuTypes
                 .stream()
                 .map(x->new MenuTypeResponseDto(x.getId(),x.getName(),x.getCreatedDate(),x.getLastModifiedDate()))
                 .collect(Collectors.toList());
@@ -38,7 +43,11 @@ public class MenuTypeService {
 
     @Transactional(readOnly = true)
     public MenuTypeResponseDto retrieveMenuType(Long id){
-        return menuTypeRepository.findByIdAndActivatedTrue(id)
+        var menuTypes = menuTypeRepository.findByIdAndActivatedTrue(id);
+        if (!menuTypes.isPresent()){
+            throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
+        }
+        return menuTypes
                 .map(x-> new MenuTypeResponseDto(x.getId(),x.getName(),x.getCreatedDate(),x.getLastModifiedDate()))
                 .orElse(null);
     }
@@ -48,14 +57,13 @@ public class MenuTypeService {
         var menuType = menuTypeRepository.findByIdAndActivatedTrue(id);
 
         if (!menuType.isPresent()){
-            return null;
+            throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
 
-        var menuTypeRetrieved = menuType.get();
-        menuTypeRetrieved.setName(requestDto.getName());
+        menuType.get().update(requestDto.getName());
         em.flush();
         em.clear();
-        return menuTypeRetrieved.getId();
+        return menuType.get().getId();
     }
 
     @Transactional
@@ -63,10 +71,10 @@ public class MenuTypeService {
         var menuType = menuTypeRepository.findByIdAndActivatedTrue(id);
 
         if(!menuType.isPresent()){
-            return;
+            throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
 
-        menuType.get().setActivated(false);
+        menuType.get().updateActivation(false);
         em.flush();
         em.clear();
         return;
@@ -77,10 +85,10 @@ public class MenuTypeService {
         var menuType = menuTypeRepository.findByIdAndActivatedFalse(id);
 
         if (!menuType.isPresent()){
-            return;
+            throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
 
-        menuType.get().setActivated(true);
+        menuType.get().updateActivation(true);
         em.flush();
         em.clear();
         return;
