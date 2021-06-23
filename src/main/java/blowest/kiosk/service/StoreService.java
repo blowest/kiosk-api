@@ -2,7 +2,6 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
-import blowest.kiosk.entity.Store;
 import blowest.kiosk.repository.StoreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +31,7 @@ public class StoreService {
     @Transactional(readOnly = true)
     public List<StoreResponseDto> retrieveAllStores() {
         var stores = storeRepository.findAllByActivatedTrue();
+
         if (stores.isEmpty()) {
             throw new NoResultException("등록된 매장정보가 없습니다.");
         }
@@ -43,7 +42,12 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public StoreResponseDto retrieveStore(Long id) {
-        return storeRepository.findByIdAndActivatedTrue(id)
+        var stores = storeRepository.findByIdAndActivatedTrue(id);
+
+        if (!stores.isPresent()){
+            throw new NoResultException("해당 매장 정보가 없습니다.");
+        }
+        return stores
                 .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
@@ -53,7 +57,7 @@ public class StoreService {
         var store = storeRepository.findByIdAndActivatedTrue(id);
 
         if (!store.isPresent()) {
-            return null;
+            throw new NoResultException("해당 매장 정보가 없습니다.");
         }
 
         var storeRetrieved = store.get();
@@ -69,7 +73,7 @@ public class StoreService {
         var store = storeRepository.findByIdAndActivatedTrue(id);
 
         if (!store.isPresent()) {
-            return;
+            throw new NoResultException("해당 매장 정보가 없습니다.");
         }
         store.get().updateActivation(false);
         em.flush();
@@ -82,7 +86,7 @@ public class StoreService {
         var store = storeRepository.findByIdAndActivatedFalse(id);
 
         if (!store.isPresent()) {
-            return;
+            throw new NoResultException("해당 매장 정보가 없습니다.");
         }
 
         store.get().updateActivation(true);

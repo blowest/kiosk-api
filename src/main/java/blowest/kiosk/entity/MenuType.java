@@ -1,12 +1,14 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class MenuType extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,27 +30,11 @@ public class MenuType extends BaseTimeEntity {
         this.activated = activated;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public List<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setName(String name) {
+    public void update(String name) {
         this.name = name;
     }
 
-    public void setActivated(boolean activated) {
+    public void updateActivation(boolean activated) {
         this.activated = activated;
     }
 }

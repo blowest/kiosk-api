@@ -9,6 +9,7 @@ public class MenuTypeRequestDto {
     public String getName() {
         return name;
     }
+
     public MenuType toEntity(){
         return new MenuType(name,true);
     }
