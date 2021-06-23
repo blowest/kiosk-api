@@ -2,6 +2,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.MenuTypeRepository;
 import blowest.kiosk.repository.TopMenuRepository;
@@ -43,7 +44,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public List<MenuResponseDto> retrieveAll() {
-        var menus = menuRepository.findAllByActivatedTrue();
+        var menus = menuRepository.findAll();
         if (menus.isEmpty()){
             throw new NoResultException("등록된 메뉴 정보가 없습니다.");
         }
@@ -55,7 +56,7 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public MenuResponseDto retrieve(Long id) {
-        var menus = menuRepository.findByIdAndActivatedTrue(id);
+        var menus = menuRepository.findById(id);
         if (!menus.isPresent()){
             throw new NoResultException("해당하는 메뉴정보가 없습니다.");
         }
@@ -66,15 +67,15 @@ public class MenuService {
 
     @Transactional()
     public Long update(Long id, MenuRequestDto requestDto) {
-        var topMenu = topMenuRepository.findByIdAndActivatedTrue(requestDto.getTopMenuId());
+        var topMenu = topMenuRepository.findById(requestDto.getTopMenuId());
         if (!topMenu.isPresent()){
             throw new NoResultException("해당하는 상위메뉴가 없습니다.");
         }
-        var menuType = menuTypeRepository.findByIdAndActivatedTrue(requestDto.getMenuTypeId());
+        var menuType = menuTypeRepository.findById(requestDto.getMenuTypeId());
         if (!menuType.isPresent()){
             throw new NoResultException("메뉴 타입이 없습니다.");
         }
-        var menu = menuRepository.findByIdAndActivatedTrue(id);
+        var menu = menuRepository.findById(id);
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴가 없습니다.");
         }
@@ -85,36 +86,27 @@ public class MenuService {
         menu.get().setTopMenu(topMenu.get());
         menu.get().setMenuType(menuType.get());
 
-        em.flush();
-        em.clear();
-
         return menu.get().getId();
     }
 
     @Transactional
     public void deactivate(Long id) {
-        var menu = menuRepository.findByIdAndActivatedTrue(id);
+        var menu = menuRepository.findById(id);
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴가 없습니다.");
         }
-        menu.get().updateActivation(false);
-
-        em.flush();
-        em.clear();
+        menu.get().updateActivation(ActivationStatus.DEACTIVATED);
 
         return;
     }
 
     @Transactional
     public void activate(Long id) {
-        var menu = menuRepository.findByIdAndActivatedFalse(id);
+        var menu = menuRepository.findById(id);
         if (!menu.isPresent()){
             throw new NoResultException("해당하는 메뉴가 없습니다.");
         }
-        menu.get().updateActivation(true);
-
-        em.flush();
-        em.clear();
+        menu.get().updateActivation(ActivationStatus.ACTIVATED);
 
         return;
     }

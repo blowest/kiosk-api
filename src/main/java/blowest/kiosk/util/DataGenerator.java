@@ -1,6 +1,7 @@
 package blowest.kiosk.util;
 
 import blowest.kiosk.entity.*;
+import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -46,10 +47,10 @@ public class DataGenerator implements ApplicationRunner {
         var sideType = menuTypeRepository.save(new MenuType("사이드", true));
         var beverageType = menuTypeRepository.save(new MenuType("음료", true));
 
-        var guinnessWhopper = menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, burgerType));
-        var monsterWhopper = menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, burgerType));
-        var cheeseStick = menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, sideType));
-        var coke =  menuRepository.save(new Menu("./images/xxx", false, 2000, true, specialAndDiscount, beverageType));
+        var guinnessWhopper = menuRepository.save(Menu.createMenu("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        var monsterWhopper = menuRepository.save(Menu.createMenu("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        var cheeseStick = menuRepository.save(Menu.createMenu("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, sideType));
+        var coke =  menuRepository.save(Menu.createMenu("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, beverageType));
 
         menuDetailRepository.save(new MenuDetail("기네스와퍼", 8500, "./images/xxx", true, guinnessWhopper));
         menuDetailRepository.save(new MenuDetail("몬스터와퍼", 8500,"./images/xxx",true, monsterWhopper));

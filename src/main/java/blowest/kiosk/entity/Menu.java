@@ -1,13 +1,17 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import blowest.kiosk.entity.status.ActivationStatus;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Menu extends BaseTimeEntity {
 
@@ -17,11 +21,12 @@ public class Menu extends BaseTimeEntity {
 
     private String imagePath;
 
-    private boolean best;
+    private boolean best; // true, false
 
     private Integer minimumCost;
 
-    private boolean activated;
+    @Enumerated(EnumType.STRING)
+    private ActivationStatus activationStatus; // true, false
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "top_menu_id")
@@ -34,16 +39,25 @@ public class Menu extends BaseTimeEntity {
     @OneToMany(mappedBy = "menu")
     private List<MenuDetail> menuDetails = new ArrayList<>();
 
-    protected Menu() {
-    }
+//    public Menu(String imagePath, boolean best, Integer minimumCost, boolean activated, TopMenu topMenu, MenuType menuType) {
+//        this.imagePath = imagePath;
+//        this.best = best;
+//        this.minimumCost = minimumCost;
+//        this.activated = activated;
+//        setMenuType(menuType);
+//        setTopMenu(topMenu);
+//    }
 
-    public Menu(String imagePath, boolean best, Integer minimumCost, boolean activated, TopMenu topMenu, MenuType menuType) {
-        this.imagePath = imagePath;
-        this.best = best;
-        this.minimumCost = minimumCost;
-        this.activated = activated;
-        setMenuType(menuType);
-        setTopMenu(topMenu);
+    public static Menu createMenu(String imagePath, boolean best, Integer minimumCost, ActivationStatus activated, TopMenu topMenu, MenuType menuType) {
+        var menu = new Menu();
+        menu.imagePath = imagePath;
+        menu.best = best;
+        menu.minimumCost = minimumCost;
+        menu.activationStatus = activated;
+        menu.topMenu = topMenu;
+        menu.menuType = menuType;
+
+        return menu;
     }
 
     public void setImagePath(String imagePath) {
@@ -58,8 +72,8 @@ public class Menu extends BaseTimeEntity {
         this.minimumCost = minimumCost;
     }
 
-    public void updateActivation(boolean activated) {
-        this.activated = activated;
+    public void updateActivation(ActivationStatus activated) {
+        this.activationStatus = activated;
     }
 
     public void setTopMenu(TopMenu topMenu) {
