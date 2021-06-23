@@ -1,13 +1,17 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import blowest.kiosk.entity.status.ActivationStatus;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class TopMenu extends BaseTimeEntity {
 
@@ -17,7 +21,8 @@ public class TopMenu extends BaseTimeEntity {
 
     private String name;
 
-    private boolean activated;
+    @Enumerated(EnumType.STRING)
+    private ActivationStatus activationStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
@@ -26,13 +31,19 @@ public class TopMenu extends BaseTimeEntity {
     @OneToMany(mappedBy = "topMenu")
     private List<Menu> menus = new ArrayList<>();
 
-    protected TopMenu() {
-    }
+//    public TopMenu(String name, boolean activated, Store store) {
+//        this.name = name;
+//        this.activated = activated;
+//        this.setStore(store);
+//    }
 
-    public TopMenu(String name, boolean activated, Store store) {
-        this.name = name;
-        this.activated = activated;
-        this.setStore(store);
+    public static TopMenu createTopMenu(String name, ActivationStatus activationStatus, Store store){
+        var topmenu = new TopMenu();
+        topmenu.name = name;
+        topmenu.activationStatus = activationStatus;
+        topmenu.store = store;
+
+        return topmenu;
     }
 
     public void setStore(Store store) {
@@ -44,7 +55,7 @@ public class TopMenu extends BaseTimeEntity {
         this.name = name;
     }
 
-    public void updateActivation(boolean activated) {
-        this.activated = activated;
+    public void updateActivation(ActivationStatus activationStatus) {
+        this.activationStatus = activationStatus;
     }
 }

@@ -2,6 +2,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
+import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.StoreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,8 +63,6 @@ public class StoreService {
 
         var storeRetrieved = store.get();
         storeRetrieved.update(requestDto.getName());
-        em.flush();
-        em.clear();
 
         return storeRetrieved.getId();
     }
@@ -75,9 +74,8 @@ public class StoreService {
         if (!store.isPresent()) {
             throw new NoResultException("해당 매장 정보가 없습니다.");
         }
-        store.get().updateActivation(false);
-        em.flush();
-        em.clear();
+        store.get().updateActivation(ActivationStatus.DEACTIVATED);
+
         return;
     }
 
@@ -89,9 +87,8 @@ public class StoreService {
             throw new NoResultException("해당 매장 정보가 없습니다.");
         }
 
-        store.get().updateActivation(true);
-        em.flush();
-        em.clear();
+        store.get().updateActivation(ActivationStatus.ACTIVATED);
+
         return;
     }
 }

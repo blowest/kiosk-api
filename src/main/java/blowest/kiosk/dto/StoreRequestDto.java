@@ -2,6 +2,7 @@ package blowest.kiosk.dto;
 
 
 import blowest.kiosk.entity.Store;
+import blowest.kiosk.entity.status.ActivationStatus;
 
 public class StoreRequestDto {
 
@@ -13,6 +14,6 @@ public class StoreRequestDto {
     }
 
     public Store toEntity() {
-        return new Store(name, true);
+        return Store.createStore(name, ActivationStatus.ACTIVATED);
     }
 }

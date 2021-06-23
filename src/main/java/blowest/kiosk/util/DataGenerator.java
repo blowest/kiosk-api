@@ -30,18 +30,18 @@ public class DataGenerator implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        var burgerking = storeRepository.save(new Store("버거킹", true));
-        storeRepository.save(new Store("맥도날드", true));
-        storeRepository.save(new Store("롯데리아", true));
-        storeRepository.save(new Store("맘스터치", true));
+        var burgerking = storeRepository.save(Store.createStore("버거킹", ActivationStatus.ACTIVATED));
+        storeRepository.save(Store.createStore("맥도날드", ActivationStatus.ACTIVATED));
+        storeRepository.save(Store.createStore("롯데리아", ActivationStatus.ACTIVATED));
+        storeRepository.save(Store.createStore("맘스터치", ActivationStatus.ACTIVATED));
 
-        var specialAndDiscount = topMenuRepository.save(new TopMenu("스페셜&할인팩", true, burgerking));
-        var premium = topMenuRepository.save(new TopMenu("프리미엄", true, burgerking));
-        var whopper = topMenuRepository.save(new TopMenu("와퍼", true, burgerking));
-        var juniorAndBurger = topMenuRepository.save(new TopMenu("주니어&버거", true, burgerking));
-        var alldaykingAndChicken = topMenuRepository.save(new TopMenu("올데이킹&치킨버거", true, burgerking));
-        var side = topMenuRepository.save(new TopMenu("사이드", true, burgerking));
-        var beverageAndDessert = topMenuRepository.save(new TopMenu("음료&디저트", true, burgerking));
+        var specialAndDiscount = topMenuRepository.save(TopMenu.createTopMenu("스페셜&할인팩", ActivationStatus.ACTIVATED, burgerking));
+        var premium = topMenuRepository.save(TopMenu.createTopMenu("프리미엄", ActivationStatus.ACTIVATED, burgerking));
+        var whopper = topMenuRepository.save(TopMenu.createTopMenu("와퍼", ActivationStatus.ACTIVATED, burgerking));
+        var juniorAndBurger = topMenuRepository.save(TopMenu.createTopMenu("주니어&버거", ActivationStatus.ACTIVATED, burgerking));
+        var alldaykingAndChicken = topMenuRepository.save(TopMenu.createTopMenu("올데이킹&치킨버거", ActivationStatus.ACTIVATED, burgerking));
+        var side = topMenuRepository.save(TopMenu.createTopMenu("사이드", ActivationStatus.ACTIVATED, burgerking));
+        var beverageAndDessert = topMenuRepository.save(TopMenu.createTopMenu("음료&디저트", ActivationStatus.ACTIVATED, burgerking));
 
         var burgerType = menuTypeRepository.save(new MenuType("버거", true));
         var sideType = menuTypeRepository.save(new MenuType("사이드", true));

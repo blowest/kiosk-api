@@ -1,15 +1,17 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import blowest.kiosk.entity.status.ActivationStatus;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Store extends BaseTimeEntity {
 
@@ -20,24 +22,30 @@ public class Store extends BaseTimeEntity {
 
     private String name;
 
-    private boolean activated;
+    @Enumerated(EnumType.STRING)
+    private ActivationStatus activationStatus;
 
     @OneToMany(mappedBy = "store")
     private List<TopMenu> topMenus = new ArrayList<>();
 
-    protected Store() {
-    }
+//    public Store(String name, boolean activated) {
+//        this.name = name;
+//        this.activated = activated;
+//    }
 
-    public Store(String name, boolean activated) {
-        this.name = name;
-        this.activated = activated;
+    public static Store createStore(String name, ActivationStatus activationStatus){
+        var store = new Store();
+        store.name = name;
+        store.activationStatus = activationStatus;
+
+        return store;
     }
 
     public void update(String name) {
         this.name = name;
     }
 
-    public void updateActivation(boolean activated) {
-        this.activated =  activated;
+    public void updateActivation(ActivationStatus activationStatus) {
+        this.activationStatus =  activationStatus;
     }
 }
