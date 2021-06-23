@@ -2,6 +2,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.TopMenuRequestDto;
 import blowest.kiosk.dto.TopMenuResponseDto;
+import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.StoreRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import org.springframework.stereotype.Service;
@@ -73,8 +74,6 @@ public class TopMenuService {
 //        requestDto.update(topMenuRetrieved, storeRetrieved);
         topMenuRetrieved.get().update(requestDto.getName());
         topMenuRetrieved.get().setStore(storeRetrieved.get()); //.get()을 붙여야 되는데 이유를 모르겠습니다...
-        em.flush();
-        em.clear();
 
         return topMenuRetrieved.get().getId();
     }
@@ -85,10 +84,7 @@ public class TopMenuService {
         if (!topMenu.isPresent()){
             throw new NoResultException("해당하는 상위메뉴 정보가 없습니다.");
         }
-
-        topMenu.get().updateActivation(false);
-        em.flush();
-        em.clear();
+        topMenu.get().updateActivation(ActivationStatus.DEACTIVATED);
 
         return topMenu.get().getId();
     }
@@ -99,9 +95,7 @@ public class TopMenuService {
         if (!topMenu.isPresent()){
             throw new NoResultException("해당하는 상위메뉴 정보가 없습니다.");
         }
-        topMenu.get().updateActivation(true);
-        em.flush();
-        em.clear();
+        topMenu.get().updateActivation(ActivationStatus.ACTIVATED);
 
         return topMenu.get().getId();
     }
