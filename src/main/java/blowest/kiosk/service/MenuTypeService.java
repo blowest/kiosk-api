@@ -3,6 +3,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.MenuTypeRequestDto;
 import blowest.kiosk.dto.MenuTypeResponseDto;
+import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.MenuTypeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class MenuTypeService {
 
     @Transactional(readOnly = true)
     public List<MenuTypeResponseDto> retrieveAllMenuTypes(){
-        var menuTypes = menuTypeRepository.findAllByActivatedTrue();
+        var menuTypes = menuTypeRepository.findAllActivated();
         if (menuTypes.isEmpty()){
             throw new NoResultException("등록된 메뉴타입정보가 없습니다.");
         }
@@ -43,7 +44,7 @@ public class MenuTypeService {
 
     @Transactional(readOnly = true)
     public MenuTypeResponseDto retrieveMenuType(Long id){
-        var menuTypes = menuTypeRepository.findByIdAndActivatedTrue(id);
+        var menuTypes = menuTypeRepository.findOneActivated(id);
         if (!menuTypes.isPresent()){
             throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
@@ -54,43 +55,37 @@ public class MenuTypeService {
 
     @Transactional
     public Long updateMenuType(Long id, MenuTypeRequestDto requestDto){
-        var menuType = menuTypeRepository.findByIdAndActivatedTrue(id);
+        var menuType = menuTypeRepository.findOneActivated(id);
 
         if (!menuType.isPresent()){
             throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
-
         menuType.get().update(requestDto.getName());
-        em.flush();
-        em.clear();
+
         return menuType.get().getId();
     }
 
     @Transactional
     public void deactivateMenuType(Long id){
-        var menuType = menuTypeRepository.findByIdAndActivatedTrue(id);
+        var menuType = menuTypeRepository.findOneActivated(id);
 
         if(!menuType.isPresent()){
             throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
+        menuType.get().updateActivation(ActivationStatus.DEACTIVATED);
 
-        menuType.get().updateActivation(false);
-        em.flush();
-        em.clear();
         return;
     }
 
     @Transactional
     public void activateMenuType(Long id){
-        var menuType = menuTypeRepository.findByIdAndActivatedFalse(id);
+        var menuType = menuTypeRepository.findOneDeactivated(id);
 
         if (!menuType.isPresent()){
             throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
+        menuType.get().updateActivation(ActivationStatus.ACTIVATED);
 
-        menuType.get().updateActivation(true);
-        em.flush();
-        em.clear();
         return;
     }
 }

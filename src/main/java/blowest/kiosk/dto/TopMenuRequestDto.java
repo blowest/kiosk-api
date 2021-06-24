@@ -21,7 +21,7 @@ public class TopMenuRequestDto {
     }
 
     public TopMenu toEntity(Store store) {
-        return TopMenu.createTopMenu(name, ActivationStatus.ACTIVATED, store);
+        return TopMenu.construct(name, ActivationStatus.ACTIVATED, store);
     }
 
     public void update(TopMenu topMenu, Store store) {

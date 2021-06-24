@@ -14,6 +14,6 @@ public class StoreRequestDto {
     }
 
     public Store toEntity() {
-        return Store.createStore(name, ActivationStatus.ACTIVATED);
+        return Store.construct(name, ActivationStatus.ACTIVATED);
     }
 }

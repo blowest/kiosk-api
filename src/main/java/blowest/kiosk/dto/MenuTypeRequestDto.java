@@ -1,6 +1,7 @@
 package blowest.kiosk.dto;
 
 import blowest.kiosk.entity.MenuType;
+import blowest.kiosk.entity.status.ActivationStatus;
 
 public class MenuTypeRequestDto {
 
@@ -11,6 +12,6 @@ public class MenuTypeRequestDto {
     }
 
     public MenuType toEntity(){
-        return new MenuType(name,true);
+        return MenuType.construct(name, ActivationStatus.ACTIVATED);
     }
 }

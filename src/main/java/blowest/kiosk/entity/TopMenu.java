@@ -37,7 +37,7 @@ public class TopMenu extends BaseTimeEntity {
 //        this.setStore(store);
 //    }
 
-    public static TopMenu createTopMenu(String name, ActivationStatus activationStatus, Store store){
+    public static TopMenu construct(String name, ActivationStatus activationStatus, Store store){
         var topmenu = new TopMenu();
         topmenu.name = name;
         topmenu.activationStatus = activationStatus;

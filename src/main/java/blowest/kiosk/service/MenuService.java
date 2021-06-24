@@ -27,7 +27,7 @@ public class MenuService {
     @Transactional
     public Long create(MenuRequestDto requestDto) {
         var topMenu = topMenuRepository.findOneActivated(requestDto.getTopMenuId()).orElse(null);
-        var menuType = menuTypeRepository.findByIdAndActivatedTrue(requestDto.getMenuTypeId()).orElse(null);
+        var menuType = menuTypeRepository.findOneActivated(requestDto.getMenuTypeId()).orElse(null);
 
         // Todo
         //      1. toEntity 함수에 넘어가는 requestDto에 FK정보들은 필요없는데 넘어감 -> PathVariable이나 RequestParameter로 해결해야할듯

@@ -33,7 +33,7 @@ public class Store extends BaseTimeEntity {
 //        this.activated = activated;
 //    }
 
-    public static Store createStore(String name, ActivationStatus activationStatus){
+    public static Store construct(String name, ActivationStatus activationStatus){
         var store = new Store();
         store.name = name;
         store.activationStatus = activationStatus;

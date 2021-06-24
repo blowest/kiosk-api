@@ -2,6 +2,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.MenuDetailRequestDto;
 import blowest.kiosk.dto.MenuDetailResponseDto;
+import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.MenuDetailRepository;
 import blowest.kiosk.repository.MenuRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class MenuDetailService {
     }
 
     public List<MenuDetailResponseDto> retrieveAll(){
-        var menuDetails = menuDetailRepository.findAllByActivatedTrue();
+        var menuDetails = menuDetailRepository.findAllActivated();
         if (menuDetails.isEmpty()){
             throw new NoResultException("등록된 상세메뉴 정보가 없습니다.");
         }
@@ -47,7 +48,7 @@ public class MenuDetailService {
     }
 
     public MenuDetailResponseDto retrieve(Long id){
-        var menuDetails = menuDetailRepository.findByIdAndActivatedTrue(id);
+        var menuDetails = menuDetailRepository.findOneActivated(id);
         if (!menuDetails.isPresent()){
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
@@ -62,7 +63,7 @@ public class MenuDetailService {
         if (!menuRetrieved.isPresent()){
             throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
         }
-        var menuDetailRetrieved = menuDetailRepository.findByIdAndActivatedTrue(id);
+        var menuDetailRetrieved = menuDetailRepository.findOneActivated(id);
         if (!menuDetailRetrieved.isPresent()){
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
@@ -75,22 +76,22 @@ public class MenuDetailService {
 
     @Transactional
     public Long deactivate(Long id){
-        var menuDetail = menuDetailRepository.findByIdAndActivatedTrue(id);
+        var menuDetail = menuDetailRepository.findOneActivated(id);
         if (!menuDetail.isPresent()){
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
-        menuDetail.get().updateActivation(false);
+        menuDetail.get().updateActivation(ActivationStatus.DEACTIVATED);
 
         return menuDetail.get().getId();
     }
 
     @Transactional
     public Long activate(Long id){
-        var menuDetail = menuDetailRepository.findByIdAndActivatedFalse(id);
+        var menuDetail = menuDetailRepository.findOneDeactivated(id);
         if (!menuDetail.isPresent()){
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
-        menuDetail.get().updateActivation(true);
+        menuDetail.get().updateActivation(ActivationStatus.ACTIVATED);
 
         return menuDetail.get().getId();
     }

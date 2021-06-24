@@ -1,13 +1,17 @@
 package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
+import blowest.kiosk.entity.status.ActivationStatus;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class MenuType extends BaseTimeEntity {
 
@@ -17,24 +21,30 @@ public class MenuType extends BaseTimeEntity {
 
     private String name;
 
-    private boolean activated;
+    @Enumerated(EnumType.STRING)
+    private ActivationStatus activationStatus;
 
     @OneToMany(mappedBy = "menuType")
     private List<Menu> menus = new ArrayList<>();
 
-    protected MenuType(){
-    }
+//    public MenuType(String name, boolean activated){
+//        this.name = name;
+//        this.activated = activated;
+//    }
 
-    public MenuType(String name, boolean activated){
-        this.name = name;
-        this.activated = activated;
+    public static MenuType construct(String name, ActivationStatus activationStatus){
+        var menuType = new MenuType();
+        menuType.name = name;
+        menuType.activationStatus = activationStatus;
+
+        return menuType;
     }
 
     public void update(String name) {
         this.name = name;
     }
 
-    public void updateActivation(boolean activated) {
-        this.activated = activated;
+    public void updateActivation(ActivationStatus activationStatus) {
+        this.activationStatus = activationStatus;
     }
 }
