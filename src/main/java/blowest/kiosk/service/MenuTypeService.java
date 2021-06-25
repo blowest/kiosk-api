@@ -38,7 +38,7 @@ public class MenuTypeService {
         }
         return menuTypes
                 .stream()
-                .map(x->new MenuTypeResponseDto(x.getId(),x.getName(),x.getCreatedDate(),x.getLastModifiedDate()))
+                .map(x-> MenuTypeResponseDto.construct(x.getId(),x.getName(),x.getCreatedDate(),x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
 
@@ -49,7 +49,7 @@ public class MenuTypeService {
             throw new NoResultException("해당하는 메뉴타입 정보가 없습니다.");
         }
         return menuTypes
-                .map(x-> new MenuTypeResponseDto(x.getId(),x.getName(),x.getCreatedDate(),x.getLastModifiedDate()))
+                .map(x-> MenuTypeResponseDto.construct(x.getId(),x.getName(),x.getCreatedDate(),x.getLastModifiedDate()))
                 .orElse(null);
     }
 

@@ -1,7 +1,12 @@
 package blowest.kiosk.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class MenuResponseDto {
 
     private Long id;
@@ -14,26 +19,13 @@ public class MenuResponseDto {
     @JsonProperty("minimum_cost")
     private Integer minimumCost;
 
-    public MenuResponseDto(Long id, String imagePath, boolean best, Integer minimumCost) {
-        this.id = id;
-        this.imagePath = imagePath;
-        this.best = best;
-        this.minimumCost = minimumCost;
-    }
+    public static MenuResponseDto construct(Long id, String imagePath, boolean best, Integer minimumCost) {
+        var menuResponseDto = new MenuResponseDto();
+        menuResponseDto.id = id;
+        menuResponseDto.imagePath = imagePath;
+        menuResponseDto.best = best;
+        menuResponseDto.minimumCost = minimumCost;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public boolean isBest() {
-        return best;
-    }
-
-    public Integer getMinimumCost() {
-        return minimumCost;
+        return menuResponseDto;
     }
 }

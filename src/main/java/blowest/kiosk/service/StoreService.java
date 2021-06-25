@@ -37,7 +37,7 @@ public class StoreService {
             throw new NoResultException("등록된 매장정보가 없습니다.");
         }
         return stores.stream()
-                .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x -> StoreResponseDto.construct(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
 
@@ -49,7 +49,7 @@ public class StoreService {
             throw new NoResultException("해당 매장 정보가 없습니다.");
         }
         return stores
-                .map(x -> new StoreResponseDto(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x -> StoreResponseDto.construct(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
 

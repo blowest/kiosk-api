@@ -44,7 +44,7 @@ public class TopMenuService {
         }
         return topMenus
                 .stream()
-                .map(x -> new TopMenuResponseDto(x.getId(), x.getName(), x.getStore().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x -> TopMenuResponseDto.construct(x.getId(), x.getName(), x.getStore().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
 
@@ -55,7 +55,7 @@ public class TopMenuService {
             throw new NoResultException("해당 상위메뉴가 없습니다.");
         }
         return topMenuRepository.findOneActivated(id)
-                .map(x -> new TopMenuResponseDto(x.getId(), x.getName(), x.getStore().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x -> TopMenuResponseDto.construct(x.getId(), x.getName(), x.getStore().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
 

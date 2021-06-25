@@ -5,7 +5,12 @@ import blowest.kiosk.entity.MenuType;
 import blowest.kiosk.entity.TopMenu;
 import blowest.kiosk.entity.status.ActivationStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class MenuRequestDto {
 
     @JsonProperty("image_path")
@@ -21,26 +26,6 @@ public class MenuRequestDto {
 
     @JsonProperty("menu_type_id")
     private Long menuTypeId;
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public boolean isBest() {
-        return best;
-    }
-
-    public Integer getMinimumCost() {
-        return minimumCost;
-    }
-
-    public Long getTopMenuId() {
-        return topMenuId;
-    }
-
-    public Long getMenuTypeId() {
-        return menuTypeId;
-    }
 
     public Menu toEntity(MenuRequestDto menuRequestDto, TopMenu topMenu, MenuType menuType) {
 

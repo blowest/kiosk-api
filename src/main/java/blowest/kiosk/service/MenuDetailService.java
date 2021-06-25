@@ -43,7 +43,7 @@ public class MenuDetailService {
         }
         return menuDetails
                 .stream()
-                .map(x -> new MenuDetailResponseDto(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x -> MenuDetailResponseDto.construct(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +53,7 @@ public class MenuDetailService {
             throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
         }
         return menuDetails
-                .map(x-> new MenuDetailResponseDto(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x-> MenuDetailResponseDto.construct(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .orElse(null);
     }
 
