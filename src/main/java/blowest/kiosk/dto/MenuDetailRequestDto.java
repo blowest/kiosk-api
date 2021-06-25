@@ -2,6 +2,7 @@ package blowest.kiosk.dto;
 
 import blowest.kiosk.entity.Menu;
 import blowest.kiosk.entity.MenuDetail;
+import blowest.kiosk.entity.status.ActivationStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MenuDetailRequestDto {
@@ -24,7 +25,7 @@ public class MenuDetailRequestDto {
     }
 
     public MenuDetail toEntity(Menu menu) {
-        return new MenuDetail(name, cost, imagePath,true, menu);
+        return MenuDetail.construct(name, cost, imagePath, ActivationStatus.ACTIVATED, menu);
     }
 
 //    public void update(MenuDetail menuDetail, Menu menu){
