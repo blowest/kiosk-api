@@ -10,5 +10,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: kiosk
       MYSQL_DATABASE: kiosk
+#      TZ: Asia/Seoul
     ports:
       - 3306:3306
