@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 4
+    username: kiosk
+    password: kioskpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://kiosk.cjoe7kvjgtot.ap-northeast-2.rds.amazonaws.com:3306/kiosk?serverTimezone=Asia/Seoul
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true

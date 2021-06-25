@@ -6,9 +6,10 @@ import blowest.kiosk.entity.status.TierStatus;
 import blowest.kiosk.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DataGenerator implements ApplicationRunner {
 
     private final StoreRepository storeRepository;
