@@ -5,6 +5,7 @@ import blowest.kiosk.dto.TopMenuResponseDto;
 import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.StoreRepository;
 import blowest.kiosk.repository.TopMenuRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,29 +15,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TopMenuService {
 
     private final StoreRepository storeRepository;
     private final TopMenuRepository topMenuRepository;
 
-    private final EntityManager em;
-
-    public TopMenuService(StoreRepository storeRepository, TopMenuRepository topMenuRepository, EntityManager em) {
-        this.storeRepository = storeRepository;
-        this.topMenuRepository = topMenuRepository;
-        this.em = em;
-    }
-
     @Transactional
     public Long create(TopMenuRequestDto requestDto) {
-        var store = storeRepository.findOneActivated(requestDto.getStoreId());
-        if (!store.isPresent()) {
-            throw new NoResultException("해당하는 가게가 없습니다.");
-        }
-        return topMenuRepository.save(requestDto.toEntity(store.get())).getId();
+        var store = storeRepository.findOneActivated(requestDto.getStoreId())
+                .orElseThrow(() -> new NoResultException("해당하는 상위메뉴 정보가 없습니다."));
+
+        return topMenuRepository.save(requestDto.toEntity(store)).getId();
     }
 
-    @Transactional(readOnly = true)
     public List<TopMenuResponseDto> retrieveAll() {
         var topMenus = topMenuRepository.findAllActivated();
         if (topMenus.isEmpty()){
@@ -48,55 +41,44 @@ public class TopMenuService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public TopMenuResponseDto retrieve(Long id) {
-        var topMenus = topMenuRepository.findOneActivated(id);
-        if (!topMenus.isPresent()){
-            throw new NoResultException("해당 상위메뉴가 없습니다.");
-        }
-        return topMenuRepository.findOneActivated(id)
-                .map(x -> TopMenuResponseDto.construct(x.getId(), x.getName(), x.getStore().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
-                .orElse(null);
+        var topMenu = topMenuRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당 상위메뉴가 없습니다."));
+
+        return TopMenuResponseDto.construct(topMenu.getId(), topMenu.getName(), topMenu.getStore().getId(), topMenu.getCreatedDate(), topMenu.getLastModifiedDate());
+
     }
 
 
     @Transactional
     public Long update(Long id, TopMenuRequestDto requestDto) {
-        var storeRetrieved = storeRepository.findOneActivated(requestDto.getStoreId());
-        if (!storeRetrieved.isPresent()){
-            throw new NoResultException("해당하는 가게가 없습니다.");
-        }
-        var topMenuRetrieved = topMenuRepository.findOneActivated(id);
-        if (!topMenuRetrieved.isPresent()){
-            throw new NoResultException("해당 상위메뉴가 없습니다.");
-        }
+        var store = storeRepository.findOneActivated(requestDto.getStoreId())
+                .orElseThrow(() -> new NoResultException("해당하는 가게가 없습니다."));
+        var topMenu = topMenuRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당 상위메뉴가 없습니다."));
 
-//        requestDto.update(topMenuRetrieved, storeRetrieved);
-        topMenuRetrieved.get().update(requestDto.getName());
-        topMenuRetrieved.get().setStore(storeRetrieved.get()); //.get()을 붙여야 되는데 이유를 모르겠습니다...
+        topMenu.update(requestDto, store);
+//        topMenuRetrieved.get().update(requestDto.getName());
+//        topMenuRetrieved.get().setStore(storeRetrieved.get()); //.get()을 붙여야 되는데 이유를 모르겠습니다... -> Optional<T>로 반환될때는 get()을 붙여줘야 해당되는 객체에 접근가능합니다.
 
-        return topMenuRetrieved.get().getId();
+        return topMenu.getId();
     }
 
     @Transactional
     public Long deactivate(Long id) {
-        var topMenu = topMenuRepository.findOneActivated(id);
-        if (!topMenu.isPresent()){
-            throw new NoResultException("해당하는 상위메뉴 정보가 없습니다.");
-        }
-        topMenu.get().updateActivation(ActivationStatus.DEACTIVATED);
+        var topMenu = topMenuRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 상위메뉴 정보가 없습니다."));
+        topMenu.deactivate();
 
-        return topMenu.get().getId();
+        return topMenu.getId();
     }
 
     @Transactional
     public Long activate(Long id) {
-        var topMenu = topMenuRepository.findOneDeactivated(id);
-        if (!topMenu.isPresent()){
-            throw new NoResultException("해당하는 상위메뉴 정보가 없습니다.");
-        }
-        topMenu.get().updateActivation(ActivationStatus.ACTIVATED);
+        var topMenu = topMenuRepository.findOneDeactivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 상위메뉴 정보가 없습니다."));
+        topMenu.activate();
 
-        return topMenu.get().getId();
+        return topMenu.getId();
     }
 }

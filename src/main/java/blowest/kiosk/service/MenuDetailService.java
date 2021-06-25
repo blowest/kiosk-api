@@ -5,6 +5,7 @@ import blowest.kiosk.dto.MenuDetailResponseDto;
 import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.MenuDetailRepository;
 import blowest.kiosk.repository.MenuRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,26 +15,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MenuDetailService {
 
     private final MenuRepository menuRepository;
     private final MenuDetailRepository menuDetailRepository;
-    private final EntityManager em;
-
-    public MenuDetailService(MenuDetailRepository menuDetailRepository, MenuRepository menuRepository, EntityManager em){
-        this.menuDetailRepository = menuDetailRepository;
-        this.menuRepository = menuRepository;
-        this.em = em;
-    }
 
     @Transactional
     public Long create(MenuDetailRequestDto requestDto){
-        var menu = menuRepository.findById(requestDto.getMenuId());
-        if (!menu.isPresent()){
-            throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
-        }
-        return menuDetailRepository.save(requestDto.toEntity(menu.get())).getId();
+        var menu = menuRepository.findById(requestDto.getMenuId())
+                .orElseThrow(() -> new NoResultException("해당하는 메뉴 정보가 없습니다."));
+
+        return menuDetailRepository.save(requestDto.toEntity(menu)).getId();
     }
 
     public List<MenuDetailResponseDto> retrieveAll(){
@@ -43,57 +37,49 @@ public class MenuDetailService {
         }
         return menuDetails
                 .stream()
-                .map(x -> MenuDetailResponseDto.construct(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
+                .map(x -> MenuDetailResponseDto.construct(x.getId(), x.getName(), x.getCost(), x.getImagePath(),
+                        x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
                 .collect(Collectors.toList());
     }
 
     public MenuDetailResponseDto retrieve(Long id){
-        var menuDetails = menuDetailRepository.findOneActivated(id);
-        if (!menuDetails.isPresent()){
-            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
-        }
-        return menuDetails
-                .map(x-> MenuDetailResponseDto.construct(x.getId(), x.getName(), x.getCost(), x.getImagePath(), x.getMenu().getId(), x.getCreatedDate(), x.getLastModifiedDate()))
-                .orElse(null);
+        var menuDetail = menuDetailRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 상세메뉴 정보가 없습니다."));
+        return MenuDetailResponseDto.construct(menuDetail.getId(), menuDetail.getName(), menuDetail.getCost(),
+                menuDetail.getImagePath(), menuDetail.getMenu().getId(), menuDetail.getCreatedDate(), menuDetail.getLastModifiedDate());
     }
 
     @Transactional
     public Long update(Long id, MenuDetailRequestDto requestDto){
-        var menuRetrieved = menuRepository.findById(requestDto.getMenuId());
-        if (!menuRetrieved.isPresent()){
-            throw new NoResultException("해당하는 메뉴 정보가 없습니다.");
-        }
-        var menuDetailRetrieved = menuDetailRepository.findOneActivated(id);
-        if (!menuDetailRetrieved.isPresent()){
-            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
-        }
+        var menu = menuRepository.findById(requestDto.getMenuId())
+                .orElseThrow(() -> new NoResultException("해당하는 메뉴 정보가 없습니다."));
+        var menuDetail = menuDetailRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 상세메뉴 정보가 없습니다."));
 
-        menuDetailRetrieved.get().update(requestDto.getName());
-        menuDetailRetrieved.get().setMenu(menuRetrieved.get());
+        menuDetail.update(requestDto.getName());
+        menuDetail.setMenu(menu);
 
-        return menuDetailRetrieved.get().getId();
+        return menuDetail.getId();
     }
 
     @Transactional
     public Long deactivate(Long id){
-        var menuDetail = menuDetailRepository.findOneActivated(id);
-        if (!menuDetail.isPresent()){
-            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
-        }
-        menuDetail.get().updateActivation(ActivationStatus.DEACTIVATED);
+        var menuDetail = menuDetailRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 상세메뉴 정보가 없습니다."));
 
-        return menuDetail.get().getId();
+        menuDetail.deactivate();
+
+        return menuDetail.getId();
     }
 
     @Transactional
     public Long activate(Long id){
-        var menuDetail = menuDetailRepository.findOneDeactivated(id);
-        if (!menuDetail.isPresent()){
-            throw new NoResultException("해당하는 상세메뉴 정보가 없습니다.");
-        }
-        menuDetail.get().updateActivation(ActivationStatus.ACTIVATED);
+        var menuDetail = menuDetailRepository.findOneDeactivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 상세메뉴 정보가 없습니다."));
 
-        return menuDetail.get().getId();
+        menuDetail.activate();
+
+        return menuDetail.getId();
     }
 
 

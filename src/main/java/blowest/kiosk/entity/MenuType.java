@@ -44,7 +44,11 @@ public class MenuType extends BaseTimeEntity {
         this.name = name;
     }
 
-    public void updateActivation(ActivationStatus activationStatus) {
-        this.activationStatus = activationStatus;
+    public void deactivate() {
+        this.activationStatus = ActivationStatus.DEACTIVATED;
+    }
+
+    public void activate() {
+        this.activationStatus = ActivationStatus.ACTIVATED;
     }
 }

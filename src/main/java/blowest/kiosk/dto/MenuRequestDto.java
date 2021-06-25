@@ -33,7 +33,6 @@ public class MenuRequestDto {
     private Long menuTypeId;
 
     public Menu toEntity(TopMenu topMenu, MenuType menuType) {
-
         return Menu.construct(this.imagePath,
                 this.tierStatus,
                 this.minimumCost,

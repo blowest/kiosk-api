@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MenuService {
 
     private final TopMenuRepository topMenuRepository;
@@ -26,15 +27,14 @@ public class MenuService {
 
     @Transactional
     public Long create(MenuRequestDto requestDto) {
-        var topMenu = topMenuRepository.findOneActivated(requestDto.getTopMenuId()).orElse(null);
-        var menuType = menuTypeRepository.findOneActivated(requestDto.getMenuTypeId()).orElse(null);
+        var topMenu = topMenuRepository.findOneActivated(requestDto.getTopMenuId())
+                .orElseThrow(() -> new NoResultException("등록된 상위메뉴 정보가 없습니다."));
+        var menuType = menuTypeRepository.findOneActivated(requestDto.getMenuTypeId())
+                .orElseThrow(() -> new NoResultException("등록된 메뉴 타입 정보가 없습니다.."));
 
-        // Todo
-        //      1. toEntity 함수에 넘어가는 requestDto에 FK정보들은 필요없는데 넘어감 -> PathVariable이나 RequestParameter로 해결해야할듯
         return menuRepository.save(requestDto.toEntity(topMenu, menuType)).getId();
     }
 
-    @Transactional(readOnly = true)
     public List<MenuResponseDto> retrieveAll() {
         var menus = menuRepository.findAllActivated();
         if (menus.isEmpty()){
@@ -46,59 +46,42 @@ public class MenuService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public MenuResponseDto retrieve(Long id) {
-        var menus = menuRepository.findOneActivated(id);
-        if (!menus.isPresent()){
-            throw new NoResultException("해당하는 메뉴정보가 없습니다.");
-        }
-        return menus
-                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getTierStatus(), x.getMinimumCost()))
-                .orElse(null);
+        var menu = menuRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 메뉴정보가 없습니다."));
+        return MenuResponseDto.construct(menu.getId(), menu.getImagePath(), menu.getTierStatus(), menu.getMinimumCost());
     }
 
-    @Transactional()
+    @Transactional
     public Long update(Long id, MenuRequestDto requestDto) {
-        var topMenu = topMenuRepository.findById(requestDto.getTopMenuId());
-        if (!topMenu.isPresent()){
-            throw new NoResultException("해당하는 상위메뉴가 없습니다.");
-        }
-        var menuType = menuTypeRepository.findById(requestDto.getMenuTypeId());
-        if (!menuType.isPresent()){
-            throw new NoResultException("메뉴 타입이 없습니다.");
-        }
-        var menu = menuRepository.findOneActivated(id);
-        if (!menu.isPresent()){
-            throw new NoResultException("해당하는 메뉴가 없습니다.");
-        }
+        var topMenu = topMenuRepository.findById(requestDto.getTopMenuId())
+                .orElseThrow(() -> new NoResultException("해당하는 상위메뉴가 없습니다."));
+        var menuType = menuTypeRepository.findById(requestDto.getMenuTypeId())
+                .orElseThrow(() -> new NoResultException("메뉴 타입이 없습니다."));
+        var menu = menuRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 메뉴가 없습니다."));
 
-        menu.get().setImagePath(requestDto.getImagePath());
-        menu.get().setTierStatus(requestDto.getTierStatus());
-        menu.get().setMinimumCost(requestDto.getMinimumCost());
-        menu.get().setTopMenu(topMenu.get());
-        menu.get().setMenuType(menuType.get());
+        menu.update(requestDto.getImagePath(), requestDto.getTierStatus(), requestDto.getMinimumCost(), topMenu, menuType);
 
-        return menu.get().getId();
+        return menu.getId();
     }
 
     @Transactional
     public void deactivate(Long id) {
-        var menu = menuRepository.findOneActivated(id);
-        if (!menu.isPresent()){
-            throw new NoResultException("해당하는 메뉴가 없습니다.");
-        }
-        menu.get().updateActivation(ActivationStatus.DEACTIVATED);
+        var menu = menuRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 메뉴가 없습니다."));
+
+        menu.deactivate();
 
         return;
     }
 
     @Transactional
     public void activate(Long id) {
-        var menu = menuRepository.findOneDeactivated(id);
-        if (!menu.isPresent()){
-            throw new NoResultException("해당하는 메뉴가 없습니다.");
-        }
-        menu.get().updateActivation(ActivationStatus.ACTIVATED);
+        var menu = menuRepository.findOneDeactivated(id)
+                .orElseThrow(() -> new NoResultException("해당하는 메뉴가 없습니다."));
+
+        menu.activate();
 
         return;
     }

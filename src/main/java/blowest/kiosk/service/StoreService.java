@@ -4,6 +4,7 @@ import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
 import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.StoreRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,23 +14,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class StoreService {
 
     private final StoreRepository storeRepository;
-
-    private final EntityManager em;
-
-    public StoreService(StoreRepository storeRepository, EntityManager em) {
-        this.storeRepository = storeRepository;
-        this.em = em;
-    }
 
     @Transactional
     public Long createStore(StoreRequestDto request) {
         return storeRepository.save(request.toEntity()).getId();
     }
 
-    @Transactional(readOnly = true)
     public List<StoreResponseDto> retrieveAllStores() {
         var stores = storeRepository.findAllActivated();
 
@@ -41,53 +36,39 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public StoreResponseDto retrieveStore(Long id) {
-        var stores = storeRepository.findOneActivated(id);
+        var store = storeRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당 매장 정보가 없습니다."));
 
-        if (!stores.isPresent()){
-            throw new NoResultException("해당 매장 정보가 없습니다.");
-        }
-        return stores
-                .map(x -> StoreResponseDto.construct(x.getId(), x.getName(), x.getCreatedDate(), x.getLastModifiedDate()))
-                .orElse(null);
+        return StoreResponseDto.construct(store.getId(), store.getName(), store.getCreatedDate(), store.getLastModifiedDate());
     }
 
     @Transactional
     public Long updateStore(Long id, StoreRequestDto requestDto) {
-        var store = storeRepository.findOneActivated(id);
+        var store = storeRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당 매장 정보가 없습니다."));
 
-        if (!store.isPresent()) {
-            throw new NoResultException("해당 매장 정보가 없습니다.");
-        }
+        store.update(requestDto.getName());
 
-        var storeRetrieved = store.get();
-        storeRetrieved.update(requestDto.getName());
-
-        return storeRetrieved.getId();
+        return store.getId();
     }
 
     @Transactional
     public void deactivateStore(Long id) {
-        var store = storeRepository.findOneActivated(id);
+        var store = storeRepository.findOneActivated(id)
+                .orElseThrow(() -> new NoResultException("해당 매장 정보가 없습니다."));
 
-        if (!store.isPresent()) {
-            throw new NoResultException("해당 매장 정보가 없습니다.");
-        }
-        store.get().updateActivation(ActivationStatus.DEACTIVATED);
+        store.deactivate();
 
         return;
     }
 
     @Transactional
     public void activateStore(Long id) {
-        var store = storeRepository.findOneDeactivated(id);
+        var store = storeRepository.findOneDeactivated(id)
+                .orElseThrow(() -> new NoResultException("해당 매장 정보가 없습니다."));
 
-        if (!store.isPresent()) {
-            throw new NoResultException("해당 매장 정보가 없습니다.");
-        }
-
-        store.get().updateActivation(ActivationStatus.ACTIVATED);
+        store.activate();
 
         return;
     }

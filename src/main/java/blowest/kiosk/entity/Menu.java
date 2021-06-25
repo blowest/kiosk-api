@@ -53,28 +53,28 @@ public class Menu extends BaseTimeEntity {
         return menu;
     }
 
-    public void setImagePath(String imagePath) {
+    public void update(String imagePath, TierStatus tierStatus, Integer minimumCost, TopMenu topMenu, MenuType menuType) {
         this.imagePath = imagePath;
-    }
-
-    public void setTierStatus(TierStatus tierStatus) {
         this.tierStatus = tierStatus;
-    }
-
-    public void setMinimumCost(Integer minimumCost) {
         this.minimumCost = minimumCost;
+        setTopMenu(topMenu);
+        setMenuType(menuType);
     }
 
-    public void updateActivation(ActivationStatus activated) {
-        this.activationStatus = activated;
+    public void deactivate() {
+        this.activationStatus = ActivationStatus.DEACTIVATED;
     }
 
-    public void setTopMenu(TopMenu topMenu) {
+    public void activate() {
+        this.activationStatus = ActivationStatus.ACTIVATED;
+    }
+
+    private void setTopMenu(TopMenu topMenu) {
         this.topMenu = topMenu;
         topMenu.getMenus().add(this);
     }
 
-    public void setMenuType(MenuType menuType) {
+    private void setMenuType(MenuType menuType) {
         this.menuType = menuType;
         menuType.getMenus().add(this);
     }
