@@ -1,5 +1,6 @@
 package blowest.kiosk.entity;
 
+import blowest.kiosk.dto.TopMenuRequestDto;
 import blowest.kiosk.entity.base.BaseTimeEntity;
 import blowest.kiosk.entity.status.ActivationStatus;
 import lombok.AccessLevel;
@@ -38,24 +39,29 @@ public class TopMenu extends BaseTimeEntity {
 //    }
 
     public static TopMenu construct(String name, ActivationStatus activationStatus, Store store){
-        var topmenu = new TopMenu();
-        topmenu.name = name;
-        topmenu.activationStatus = activationStatus;
-        topmenu.store = store;
+        var topMenu = new TopMenu();
+        topMenu.name = name;
+        topMenu.activationStatus = activationStatus;
+        topMenu.store = store;
 
-        return topmenu;
+        return topMenu;
     }
 
-    public void setStore(Store store) {
+    private void setStore(Store store) {
         this.store = store;
         store.getTopMenus().add(this);
     }
 
-    public void update(String name) {
-        this.name = name;
+    public void deactivate() {
+        this.activationStatus = ActivationStatus.DEACTIVATED;
     }
 
-    public void updateActivation(ActivationStatus activationStatus) {
-        this.activationStatus = activationStatus;
+    public void activate() {
+        this.activationStatus = ActivationStatus.ACTIVATED;
+    }
+
+    public void update(TopMenuRequestDto requestDto, Store store) {
+        name = requestDto.getName();
+        setStore(store);
     }
 }

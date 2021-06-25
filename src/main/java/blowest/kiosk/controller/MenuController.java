@@ -3,19 +3,17 @@ package blowest.kiosk.controller;
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
 import blowest.kiosk.service.MenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class MenuController {
 
     private final MenuService menuService;
-
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
-    }
 
     @PostMapping("/menus")
     public Long create(@RequestBody MenuRequestDto requestDto) {
@@ -43,7 +41,7 @@ public class MenuController {
         return;
     }
 
-    @PatchMapping("/menus/{id}/activate")
+    @PostMapping("/menus/{id}/activate")
     public void activateStore(@PathVariable Long id) {
         menuService.activate(id);
         return;

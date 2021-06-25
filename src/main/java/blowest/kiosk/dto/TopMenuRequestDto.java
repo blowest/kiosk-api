@@ -21,8 +21,4 @@ public class TopMenuRequestDto {
         return TopMenu.construct(name, ActivationStatus.ACTIVATED, store);
     }
 
-    public void update(TopMenu topMenu, Store store) {
-        topMenu.update(name);
-        topMenu.setStore(store);
-    }
 }

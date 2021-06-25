@@ -4,6 +4,7 @@ import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
 import blowest.kiosk.repository.StoreRepository;
 import blowest.kiosk.service.StoreService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -11,19 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class StoreController {
 
     private final StoreService storeService;
-
-    private final StoreRepository storeRepository;
-
-    private final EntityManager em;
-
-    public StoreController(StoreService storeService, StoreRepository storeRepository, EntityManager em) {
-        this.storeService = storeService;
-        this.storeRepository = storeRepository;
-        this.em = em;
-    }
 
     @GetMapping("/stores/test")
     public String test() {
@@ -56,7 +48,7 @@ public class StoreController {
         return;
     }
 
-    @PatchMapping("/stores/{id}/activate")
+    @PostMapping("/stores/{id}/activate")
     public void activateStore(@PathVariable Long id) {
         storeService.activateStore(id);
     }
