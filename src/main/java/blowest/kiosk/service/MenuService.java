@@ -42,7 +42,7 @@ public class MenuService {
         }
         return menus
                 .stream()
-                .map(x -> new MenuResponseDto(x.getId(), x.getImagePath(), x.isBest(), x.getMinimumCost()))
+                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.isBest(), x.getMinimumCost()))
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +53,7 @@ public class MenuService {
             throw new NoResultException("해당하는 메뉴정보가 없습니다.");
         }
         return menus
-                .map(x -> new MenuResponseDto(x.getId(), x.getImagePath(), x.isBest(), x.getMinimumCost()))
+                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.isBest(), x.getMinimumCost()))
                 .orElse(null);
     }
 

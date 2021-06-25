@@ -1,9 +1,14 @@
 package blowest.kiosk.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public class TopMenuResponseDto {
 
     private Long id;
@@ -19,31 +24,14 @@ public class TopMenuResponseDto {
     @JsonProperty("last_modified_date")
     private LocalDateTime lastModifiedDate;
 
-    public TopMenuResponseDto(Long id, String name, Long storeId, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
-        this.id = id;
-        this.name = name;
-        this.storeId = storeId;
-        this.createdDate = createdDate;
-        this.lastModifiedDate = lastModifiedDate;
-    }
+    public static TopMenuResponseDto construct(Long id, String name, Long storeId, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {
+        var topMenuResponseDto = new TopMenuResponseDto();
+        topMenuResponseDto.id = id;
+        topMenuResponseDto.name = name;
+        topMenuResponseDto.storeId = storeId;
+        topMenuResponseDto.createdDate = createdDate;
+        topMenuResponseDto.lastModifiedDate = lastModifiedDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
+        return topMenuResponseDto;
     }
 }
