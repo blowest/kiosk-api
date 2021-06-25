@@ -6,6 +6,7 @@ services:
     environment:
       - POSTGRES_USER=kiosk
       - POSTGRES_PASSWORD=kiosk
+      - TZ=Asia/Seoul
     ports:
       - "5432:5432"
     restart: unless-stopped
