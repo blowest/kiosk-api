@@ -2,6 +2,7 @@ package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
 import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.status.TierStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class Menu extends BaseTimeEntity {
 
     private String imagePath;
 
-    private boolean best; // true, false
+    @Enumerated(EnumType.STRING)
+    private TierStatus tierStatus; // true, false
 
     private Integer minimumCost;
 
@@ -39,10 +41,10 @@ public class Menu extends BaseTimeEntity {
     @OneToMany(mappedBy = "menu")
     private List<MenuDetail> menuDetails = new ArrayList<>();
 
-    public static Menu construct(String imagePath, boolean best, Integer minimumCost, ActivationStatus activated, TopMenu topMenu, MenuType menuType) {
+    public static Menu construct(String imagePath, TierStatus tierStatus, Integer minimumCost, ActivationStatus activated, TopMenu topMenu, MenuType menuType) {
         var menu = new Menu();
         menu.imagePath = imagePath;
-        menu.best = best;
+        menu.tierStatus = tierStatus;
         menu.minimumCost = minimumCost;
         menu.activationStatus = activated;
         menu.topMenu = topMenu;
@@ -55,8 +57,8 @@ public class Menu extends BaseTimeEntity {
         this.imagePath = imagePath;
     }
 
-    public void setBest(boolean best) {
-        this.best = best;
+    public void setTierStatus(TierStatus tierStatus) {
+        this.tierStatus = tierStatus;
     }
 
     public void setMinimumCost(Integer minimumCost) {

@@ -4,10 +4,14 @@ import blowest.kiosk.entity.Menu;
 import blowest.kiosk.entity.MenuType;
 import blowest.kiosk.entity.TopMenu;
 import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.status.TierStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -16,7 +20,8 @@ public class MenuRequestDto {
     @JsonProperty("image_path")
     private String imagePath;
 
-    private boolean best;
+    @Enumerated(EnumType.STRING)
+    private TierStatus tierStatus;
 
     @JsonProperty("minimum_cost")
     private Integer minimumCost;
@@ -27,11 +32,11 @@ public class MenuRequestDto {
     @JsonProperty("menu_type_id")
     private Long menuTypeId;
 
-    public Menu toEntity(MenuRequestDto menuRequestDto, TopMenu topMenu, MenuType menuType) {
+    public Menu toEntity(TopMenu topMenu, MenuType menuType) {
 
-        return Menu.construct(menuRequestDto.getImagePath(),
-                false,
-                menuRequestDto.getMinimumCost(),
+        return Menu.construct(this.imagePath,
+                this.tierStatus,
+                this.minimumCost,
                 ActivationStatus.ACTIVATED,
                 topMenu,
                 menuType);

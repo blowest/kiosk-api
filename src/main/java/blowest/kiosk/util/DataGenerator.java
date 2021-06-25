@@ -2,6 +2,7 @@ package blowest.kiosk.util;
 
 import blowest.kiosk.entity.*;
 import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.status.TierStatus;
 import blowest.kiosk.repository.*;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -47,10 +48,10 @@ public class DataGenerator implements ApplicationRunner {
         var sideType = menuTypeRepository.save(MenuType.construct("사이드", ActivationStatus.ACTIVATED));
         var beverageType = menuTypeRepository.save(MenuType.construct("음료", ActivationStatus.ACTIVATED));
 
-        var guinnessWhopper = menuRepository.save(Menu.construct("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        var monsterWhopper = menuRepository.save(Menu.construct("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        var cheeseStick = menuRepository.save(Menu.construct("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, sideType));
-        var coke =  menuRepository.save(Menu.construct("./images/xxx", false, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, beverageType));
+        var guinnessWhopper = menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        var monsterWhopper = menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        var cheeseStick = menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, sideType));
+        var coke =  menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, beverageType));
 
         menuDetailRepository.save(MenuDetail.construct("기네스와퍼", 8500, "./images/xxx", ActivationStatus.ACTIVATED, guinnessWhopper));
         menuDetailRepository.save(MenuDetail.construct("몬스터와퍼", 8500,"./images/xxx",ActivationStatus.ACTIVATED, monsterWhopper));

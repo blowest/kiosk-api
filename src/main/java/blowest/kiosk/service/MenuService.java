@@ -31,7 +31,7 @@ public class MenuService {
 
         // Todo
         //      1. toEntity 함수에 넘어가는 requestDto에 FK정보들은 필요없는데 넘어감 -> PathVariable이나 RequestParameter로 해결해야할듯
-        return menuRepository.save(requestDto.toEntity(requestDto, topMenu, menuType)).getId();
+        return menuRepository.save(requestDto.toEntity(topMenu, menuType)).getId();
     }
 
     @Transactional(readOnly = true)
@@ -42,7 +42,7 @@ public class MenuService {
         }
         return menus
                 .stream()
-                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.isBest(), x.getMinimumCost()))
+                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getTierStatus(), x.getMinimumCost()))
                 .collect(Collectors.toList());
     }
 
@@ -53,7 +53,7 @@ public class MenuService {
             throw new NoResultException("해당하는 메뉴정보가 없습니다.");
         }
         return menus
-                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.isBest(), x.getMinimumCost()))
+                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getTierStatus(), x.getMinimumCost()))
                 .orElse(null);
     }
 
@@ -73,7 +73,7 @@ public class MenuService {
         }
 
         menu.get().setImagePath(requestDto.getImagePath());
-        menu.get().setBest(requestDto.isBest());
+        menu.get().setTierStatus(requestDto.getTierStatus());
         menu.get().setMinimumCost(requestDto.getMinimumCost());
         menu.get().setTopMenu(topMenu.get());
         menu.get().setMenuType(menuType.get());
