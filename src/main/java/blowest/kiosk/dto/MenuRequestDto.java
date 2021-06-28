@@ -1,9 +1,9 @@
 package blowest.kiosk.dto;
 
 import blowest.kiosk.entity.Menu;
-import blowest.kiosk.entity.MenuType;
 import blowest.kiosk.entity.TopMenu;
 import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.status.MenuType;
 import blowest.kiosk.entity.status.TierStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
@@ -20,24 +20,29 @@ public class MenuRequestDto {
     @JsonProperty("image_path")
     private String imagePath;
 
+    private String name;
+
+    private Integer cost;
+
     @Enumerated(EnumType.STRING)
     private TierStatus tierStatus;
 
     @JsonProperty("minimum_cost")
     private Integer minimumCost;
 
+    @JsonProperty("menu_type")
+    private MenuType menuType;
+
     @JsonProperty("top_menu_id")
     private Long topMenuId;
 
-    @JsonProperty("menu_type_id")
-    private Long menuTypeId;
-
-    public Menu toEntity(TopMenu topMenu, MenuType menuType) {
+    public Menu toEntity(TopMenu topMenu) {
         return Menu.construct(this.imagePath,
+                this.name,
+                this.cost,
                 this.tierStatus,
-                this.minimumCost,
                 ActivationStatus.ACTIVATED,
                 topMenu,
-                menuType);
+                this.menuType);
     }
 }

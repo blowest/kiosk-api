@@ -18,18 +18,20 @@ public class MenuResponseDto {
     @JsonProperty("image_path")
     private String imagePath;
 
+    private String name;
+
+    private Integer cost;
+
     @Enumerated(EnumType.STRING)
     private TierStatus tierStatus;
 
-    @JsonProperty("minimum_cost")
-    private Integer minimumCost;
-
-    public static MenuResponseDto construct(Long id, String imagePath, TierStatus tierStatus, Integer minimumCost) {
+    public static MenuResponseDto construct(Long id, String imagePath, String name, Integer cost, TierStatus tierStatus) {
         var menuResponseDto = new MenuResponseDto();
         menuResponseDto.id = id;
         menuResponseDto.imagePath = imagePath;
+        menuResponseDto.name = name;
+        menuResponseDto.cost = cost;
         menuResponseDto.tierStatus = tierStatus;
-        menuResponseDto.minimumCost = minimumCost;
 
         return menuResponseDto;
     }

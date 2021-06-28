@@ -19,6 +19,8 @@
 1. ~~Swagger 추가~~
 2. ~~AWS server 배포~~
 3. DB 수정
+3. topmenu와 menutype의 통합?
+3. 세트, 행사, 할인
 3. Entity Class의 다이어그램과 협력관계 다이어그램
 5. Validation, enum, @embedded, static constructor, dirty checking 적용
 4. 예외처리 후 ResponseEntity, HTTP status code 적용
@@ -33,5 +35,7 @@
 ## Consideration
 * SOLID
 * IOC, DI가 생겨난 이유
-* 함수에 파라미터를 넘길때, 객체자체 vs 각각 객체 프로퍼티 어떤것을 사용해야 하나? 
+* 함수에 파라미터를 넘길때, 객체자체 vs 각각 객체 프로퍼티 어떤것을 사용해야 하나?
+* builder vs static 생성자
+
 
