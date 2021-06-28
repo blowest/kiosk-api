@@ -36,11 +36,9 @@ public class DataGenerator implements ApplicationRunner {
         var premium = topMenuRepository.save(TopMenu.construct("프리미엄", ActivationStatus.ACTIVATED, burgerking));
         var whopper = topMenuRepository.save(TopMenu.construct("와퍼", ActivationStatus.ACTIVATED, burgerking));
         var juniorAndBurger = topMenuRepository.save(TopMenu.construct("주니어&버거", ActivationStatus.ACTIVATED, burgerking));
-        var alldayking = topMenuRepository.save(TopMenu.construct("올데이킹", ActivationStatus.ACTIVATED, burgerking));
-        var chicken = topMenuRepository.save(TopMenu.construct("치킨버거", ActivationStatus.ACTIVATED, burgerking));
+        var alldaykingAndChicken = topMenuRepository.save(TopMenu.construct("올데이킹&치킨", ActivationStatus.ACTIVATED, burgerking));
         var side = topMenuRepository.save(TopMenu.construct("사이드", ActivationStatus.ACTIVATED, burgerking));
-        var beverage = topMenuRepository.save(TopMenu.construct("음료", ActivationStatus.ACTIVATED, burgerking));
-        var dessert = topMenuRepository.save(TopMenu.construct("디저트", ActivationStatus.ACTIVATED, burgerking));
+        var beverageAndDessert = topMenuRepository.save(TopMenu.construct("음료&디저트", ActivationStatus.ACTIVATED, burgerking));
 
         menuRepository.save(Menu.construct("./images/xxx", "몬스터X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.construct("./images/xxx", "통새우X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
@@ -52,7 +50,6 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.construct("./images/xxx", "몬스터와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.construct("./images/xxx", "콰트로치즈와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.construct("./images/xxx", "통새우와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
-        menuRepository.save(Menu.construct("./images/xxx", "몬스터와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, MenuType.BURGER));
 
         menuRepository.save(Menu.construct("./images/xxx", "통베이컨와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
         menuRepository.save(Menu.construct("./images/xxx", "스태커2와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
@@ -74,9 +71,9 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.construct("./images/xxx", "치즈와퍼주니어", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
         menuRepository.save(Menu.construct("./images/xxx", "치즈버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
 
-        menuRepository.save(Menu.construct("./images/xxx", "바비큐킹치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, chicken, MenuType.BURGER));
-        menuRepository.save(Menu.construct("./images/xxx", "킹치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, chicken, MenuType.BURGER));
-        menuRepository.save(Menu.construct("./images/xxx", "통치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, chicken, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "바비큐킹치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "킹치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "통치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
 
         menuRepository.save(Menu.construct("./images/xxx", "쉐이킹프라이", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
         menuRepository.save(Menu.construct("./images/xxx", "바삭킹8조각+소스", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
@@ -93,21 +90,21 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.construct("./images/xxx", "콘샐러드", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
         menuRepository.save(Menu.construct("./images/xxx", "사이드소스", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
 
-        menuRepository.save(Menu.construct("./images/xxx", "제로톡톡", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "아메리카노", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "핫/아이스초코", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "씨그램", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "코카콜라", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "코카콜라 제로", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "스프라이트", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "미닛메이드 오렌지", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
-        menuRepository.save(Menu.construct("./images/xxx", "순수(미네랄워터)", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverage, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "제로톡톡", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "아메리카노", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "핫/아이스초코", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "씨그램", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "코카콜라", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "코카콜라 제로", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "스프라이트", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "미닛메이드 오렌지", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.construct("./images/xxx", "순수(미네랄워터)", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
 
-        menuRepository.save(Menu.construct("./images/xxx", "선데 초코바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, dessert, MenuType.DESSERT));
-        menuRepository.save(Menu.construct("./images/xxx", "선데 딸기바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, dessert, MenuType.DESSERT));
-        menuRepository.save(Menu.construct("./images/xxx", "선데 바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, dessert, MenuType.DESSERT));
-        menuRepository.save(Menu.construct("./images/xxx", "선데", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, dessert, MenuType.DESSERT));
-        menuRepository.save(Menu.construct("./images/xxx", "콘 아이스크림", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, dessert, MenuType.DESSERT));
-        menuRepository.save(Menu.construct("./images/xxx", "컵 아이스크림", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, dessert, MenuType.DESSERT));
+        menuRepository.save(Menu.construct("./images/xxx", "선데 초코바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
+        menuRepository.save(Menu.construct("./images/xxx", "선데 딸기바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
+        menuRepository.save(Menu.construct("./images/xxx", "선데 바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
+        menuRepository.save(Menu.construct("./images/xxx", "선데", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
+        menuRepository.save(Menu.construct("./images/xxx", "콘 아이스크림", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
+        menuRepository.save(Menu.construct("./images/xxx", "컵 아이스크림", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
     }
 }
