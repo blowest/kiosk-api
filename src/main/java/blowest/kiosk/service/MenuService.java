@@ -2,9 +2,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
-import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.MenuRepository;
-import blowest.kiosk.repository.MenuTypeRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,18 +19,14 @@ public class MenuService {
 
     private final TopMenuRepository topMenuRepository;
 
-    private final MenuTypeRepository menuTypeRepository;
-
     private final MenuRepository menuRepository;
 
     @Transactional
     public Long create(MenuRequestDto requestDto) {
         var topMenu = topMenuRepository.findOneActivated(requestDto.getTopMenuId())
                 .orElseThrow(() -> new NoResultException("등록된 상위메뉴 정보가 없습니다."));
-        var menuType = menuTypeRepository.findOneActivated(requestDto.getMenuTypeId())
-                .orElseThrow(() -> new NoResultException("등록된 메뉴 타입 정보가 없습니다.."));
 
-        return menuRepository.save(requestDto.toEntity(topMenu, menuType)).getId();
+        return menuRepository.save(requestDto.toEntity(topMenu)).getId();
     }
 
     public List<MenuResponseDto> retrieveAll() {
@@ -56,12 +50,10 @@ public class MenuService {
     public Long update(Long id, MenuRequestDto requestDto) {
         var topMenu = topMenuRepository.findById(requestDto.getTopMenuId())
                 .orElseThrow(() -> new NoResultException("해당하는 상위메뉴가 없습니다."));
-        var menuType = menuTypeRepository.findById(requestDto.getMenuTypeId())
-                .orElseThrow(() -> new NoResultException("메뉴 타입이 없습니다."));
         var menu = menuRepository.findOneActivated(id)
                 .orElseThrow(() -> new NoResultException("해당하는 메뉴가 없습니다."));
 
-        menu.update(requestDto.getImagePath(), requestDto.getName(), requestDto.getCost(), requestDto.getTierStatus(), topMenu, menuType);
+        menu.update(requestDto.getImagePath(), requestDto.getName(), requestDto.getCost(), requestDto.getTierStatus(), topMenu, requestDto.getMenuType());
 
         return menu.getId();
     }

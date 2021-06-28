@@ -2,6 +2,7 @@ package blowest.kiosk.util;
 
 import blowest.kiosk.entity.*;
 import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.status.MenuType;
 import blowest.kiosk.entity.status.TierStatus;
 import blowest.kiosk.repository.*;
 import org.springframework.boot.ApplicationArguments;
@@ -16,14 +17,11 @@ public class DataGenerator implements ApplicationRunner {
 
     private final TopMenuRepository topMenuRepository;
 
-    private final MenuTypeRepository menuTypeRepository;
-
     private final MenuRepository menuRepository;
 
-    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository, MenuRepository menuRepository) {
+    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuRepository menuRepository) {
         this.storeRepository = storeRepository;
         this.topMenuRepository = topMenuRepository;
-        this.menuTypeRepository = menuTypeRepository;
         this.menuRepository = menuRepository;
     }
 
@@ -42,14 +40,19 @@ public class DataGenerator implements ApplicationRunner {
         var side = topMenuRepository.save(TopMenu.construct("사이드", ActivationStatus.ACTIVATED, burgerking));
         var beverageAndDessert = topMenuRepository.save(TopMenu.construct("음료&디저트", ActivationStatus.ACTIVATED, burgerking));
 
-        var burgerType = menuTypeRepository.save(MenuType.construct("버거", ActivationStatus.ACTIVATED));
-        var sideType = menuTypeRepository.save(MenuType.construct("사이드", ActivationStatus.ACTIVATED));
-        var beverageType = menuTypeRepository.save(MenuType.construct("음료", ActivationStatus.ACTIVATED));
-
-        menuRepository.save(Menu.construct("./images/xxx", "기네스와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        menuRepository.save(Menu.construct("./images/xxx", "몬스터와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        menuRepository.save(Menu.construct("./images/xxx", "치즈스틱", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        menuRepository.save(Menu.construct("./images/xxx", "콜라", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        menuRepository.save(Menu.construct("./images/xxx", "몬스터X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "통새우X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "콰트로치즈X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "기네스통베이컨와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "기네스콰트로치즈와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "기네스머쉬룸와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "기네스와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "몬스터와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "콰트로치즈와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "통새우와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "몬스터와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, MenuType.BURGER));
+        menuRepository.save(Menu.construct("./images/xxx", "치즈스틱", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, MenuType.SIDE));
+        menuRepository.save(Menu.construct("./images/xxx", "콜라", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, MenuType.BEVERAGE));
 
     }
 }

@@ -2,6 +2,7 @@ package blowest.kiosk.entity;
 
 import blowest.kiosk.entity.base.BaseTimeEntity;
 import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.status.MenuType;
 import blowest.kiosk.entity.status.TierStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,8 +38,7 @@ public class Menu extends BaseTimeEntity {
     @JoinColumn(name = "top_menu_id")
     private TopMenu topMenu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_type_id")
+    @Enumerated(EnumType.STRING)
     private MenuType menuType;
 
     public static Menu construct(String imagePath, String name, Integer cost,
@@ -50,21 +50,18 @@ public class Menu extends BaseTimeEntity {
         menu.tierStatus = tierStatus;
         menu.activationStatus = activationStatus;
         setTopMenu(menu, topMenu);
-        setMenuType(menu, menuType);
+        menu.menuType = menuType;
 
         return menu;
     }
 
-    public void update(String imagePath, TierStatus tierStatus, Integer minimumCost, TopMenu topMenu, MenuType menuType) {
-
-    }
     public void update(String imagePath, String name, Integer cost, TierStatus tierStatus, TopMenu topMenu, MenuType menuType) {
         this.imagePath = imagePath;
         this.name = name;
         this.cost = cost;
         this.tierStatus = tierStatus;
         setTopMenu(topMenu);
-        setMenuType(menuType);
+        this.menuType = menuType;
     }
 
     public void deactivate() {
@@ -80,20 +77,9 @@ public class Menu extends BaseTimeEntity {
         topMenu.getMenus().add(this);
     }
 
-    private void setMenuType(MenuType menuType) {
-        this.menuType = menuType;
-        menuType.getMenus().add(this);
-    }
-
     private static void setTopMenu(Menu menu, TopMenu topMenu) {
         menu.topMenu = topMenu;
         topMenu.getMenus().add(menu);
     }
-
-    private static void setMenuType(Menu menu, MenuType menuType) {
-        menu.menuType = menuType;
-        menuType.getMenus().add(menu);
-    }
-
 
 }
