@@ -42,14 +42,14 @@ public class MenuService {
         }
         return menus
                 .stream()
-                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getTierStatus(), x.getMinimumCost()))
+                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getName(), x.getCost(), x.getTierStatus()))
                 .collect(Collectors.toList());
     }
 
     public MenuResponseDto retrieve(Long id) {
         var menu = menuRepository.findOneActivated(id)
                 .orElseThrow(() -> new NoResultException("해당하는 메뉴정보가 없습니다."));
-        return MenuResponseDto.construct(menu.getId(), menu.getImagePath(), menu.getTierStatus(), menu.getMinimumCost());
+        return MenuResponseDto.construct(menu.getId(), menu.getImagePath(), menu.getName(), menu.getCost(), menu.getTierStatus());
     }
 
     @Transactional
@@ -61,7 +61,7 @@ public class MenuService {
         var menu = menuRepository.findOneActivated(id)
                 .orElseThrow(() -> new NoResultException("해당하는 메뉴가 없습니다."));
 
-        menu.update(requestDto.getImagePath(), requestDto.getTierStatus(), requestDto.getMinimumCost(), topMenu, menuType);
+        menu.update(requestDto.getImagePath(), requestDto.getName(), requestDto.getCost(), requestDto.getTierStatus(), topMenu, menuType);
 
         return menu.getId();
     }

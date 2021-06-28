@@ -9,7 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class DataGenerator implements ApplicationRunner {
 
     private final StoreRepository storeRepository;
@@ -20,14 +20,11 @@ public class DataGenerator implements ApplicationRunner {
 
     private final MenuRepository menuRepository;
 
-    private final MenuDetailRepository menuDetailRepository;
-
-    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository, MenuRepository menuRepository, MenuDetailRepository menuDetailRepository) {
+    public DataGenerator(StoreRepository storeRepository, TopMenuRepository topMenuRepository, MenuTypeRepository menuTypeRepository, MenuRepository menuRepository) {
         this.storeRepository = storeRepository;
         this.topMenuRepository = topMenuRepository;
         this.menuTypeRepository = menuTypeRepository;
         this.menuRepository = menuRepository;
-        this.menuDetailRepository = menuDetailRepository;
     }
 
     @Override
@@ -49,14 +46,10 @@ public class DataGenerator implements ApplicationRunner {
         var sideType = menuTypeRepository.save(MenuType.construct("사이드", ActivationStatus.ACTIVATED));
         var beverageType = menuTypeRepository.save(MenuType.construct("음료", ActivationStatus.ACTIVATED));
 
-        var guinnessWhopper = menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        var monsterWhopper = menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
-        var cheeseStick = menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, sideType));
-        var coke =  menuRepository.save(Menu.construct("./images/xxx", TierStatus.NORMAL, 2000, ActivationStatus.ACTIVATED, specialAndDiscount, beverageType));
+        menuRepository.save(Menu.construct("./images/xxx", "기네스와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        menuRepository.save(Menu.construct("./images/xxx", "몬스터와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        menuRepository.save(Menu.construct("./images/xxx", "치즈스틱", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
+        menuRepository.save(Menu.construct("./images/xxx", "콜라", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, specialAndDiscount, burgerType));
 
-        menuDetailRepository.save(MenuDetail.construct("기네스와퍼", 8500, "./images/xxx", ActivationStatus.ACTIVATED, guinnessWhopper));
-        menuDetailRepository.save(MenuDetail.construct("몬스터와퍼", 8500,"./images/xxx",ActivationStatus.ACTIVATED, monsterWhopper));
-        menuDetailRepository.save(MenuDetail.construct("치즈스틱",2200, "./images/xxx",ActivationStatus.ACTIVATED, cheeseStick));
-        menuDetailRepository.save(MenuDetail.construct("콜라", 2000, "./images/xxx", ActivationStatus.ACTIVATED, coke));
     }
 }

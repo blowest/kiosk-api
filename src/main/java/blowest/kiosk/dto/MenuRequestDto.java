@@ -20,6 +20,10 @@ public class MenuRequestDto {
     @JsonProperty("image_path")
     private String imagePath;
 
+    private String name;
+
+    private Integer cost;
+
     @Enumerated(EnumType.STRING)
     private TierStatus tierStatus;
 
@@ -34,8 +38,9 @@ public class MenuRequestDto {
 
     public Menu toEntity(TopMenu topMenu, MenuType menuType) {
         return Menu.construct(this.imagePath,
+                this.name,
+                this.cost,
                 this.tierStatus,
-                this.minimumCost,
                 ActivationStatus.ACTIVATED,
                 topMenu,
                 menuType);
