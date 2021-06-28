@@ -1,69 +1,67 @@
 package blowest.kiosk.entity;
 
+import blowest.kiosk.dto.TopMenuRequestDto;
 import blowest.kiosk.entity.base.BaseTimeEntity;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import org.springframework.web.bind.annotation.GetMapping;
+import blowest.kiosk.entity.status.ActivationStatus;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class TopMenu extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "top_menu_id")
     private Long id;
 
     private String name;
 
-    private boolean activated;
+    @Enumerated(EnumType.STRING)
+    private ActivationStatus activationStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
     @OneToMany(mappedBy = "topMenu")
-    private List<Menu> menus;
+    private List<Menu> menus = new ArrayList<>();
 
-    protected TopMenu() {
+//    public TopMenu(String name, boolean activated, Store store) {
+//        this.name = name;
+//        this.activated = activated;
+//        this.setStore(store);
+//    }
+
+    public static TopMenu construct(String name, ActivationStatus activationStatus, Store store){
+        var topMenu = new TopMenu();
+        topMenu.name = name;
+        topMenu.activationStatus = activationStatus;
+        topMenu.store = store;
+
+        return topMenu;
     }
 
-    public TopMenu(String name, boolean activated, Store store) {
-        this.name = name;
-        this.activated = activated;
-        this.setStore(store);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public List<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setStore(Store store) {
+    private void setStore(Store store) {
         this.store = store;
         store.getTopMenus().add(this);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void deactivate() {
+        this.activationStatus = ActivationStatus.DEACTIVATED;
     }
 
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void activate() {
+        this.activationStatus = ActivationStatus.ACTIVATED;
+    }
+
+    public void update(TopMenuRequestDto requestDto, Store store) {
+        name = requestDto.getName();
+        setStore(store);
     }
 }

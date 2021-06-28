@@ -1,5 +1,6 @@
 package blowest.kiosk.entity.base;
 
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
+@Getter
 public class BaseTimeEntity {
 
     @CreatedDate
@@ -19,12 +21,4 @@ public class BaseTimeEntity {
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public LocalDateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
 }

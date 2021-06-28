@@ -2,10 +2,14 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:13.2
+    image: mysql:8
+    restart: always
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
     environment:
-      - POSTGRES_USER=kiosk
-      - POSTGRES_PASSWORD=kiosk
+      MYSQL_ROOT_PASSWORD: kiosk
+      MYSQL_DATABASE: kiosk
+#      TZ: Asia/Seoul
     ports:
-      - "5432:5432"
-    restart: unless-stopped
+      - 3306:3306
