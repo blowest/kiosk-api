@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
-    @Query("select s from Store s where s.activationStatus = 'ACTIVATED'")
+    @Query("select s from Store s where s.activationStatus = 'ACTIVATED' order by s.id asc")
     List<Store> findAllActivated();
 
     @Query("select s from Store s where s.id = :id and s.activationStatus = 'ACTIVATED'")

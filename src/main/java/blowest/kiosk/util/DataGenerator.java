@@ -10,7 +10,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DataGenerator implements ApplicationRunner {
 
     private final StoreRepository storeRepository;

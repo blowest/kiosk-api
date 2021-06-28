@@ -13,6 +13,12 @@ public class StoreRequestDto {
 
     private String name;
 
+    public static StoreRequestDto construct(String name) {
+        var dto = new StoreRequestDto();
+        dto.name = name;
+
+        return dto;
+    }
     public Store toEntity() {
         return Store.construct(name, ActivationStatus.ACTIVATED);
     }
