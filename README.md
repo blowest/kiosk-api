@@ -20,6 +20,7 @@
 2. ~~AWS server 배포~~
 3. DB 수정
 3. topmenu와 menutype의 통합?
+3. updatedate, createdate 적용 여부 결정
 3. 세트, 행사, 할인
 3. Entity Class의 다이어그램과 협력관계 다이어그램
 5. Validation, enum, @embedded, static constructor, dirty checking 적용
