@@ -1,11 +1,7 @@
 package blowest.kiosk.service;
 
 import blowest.kiosk.dto.StoreRequestDto;
-import blowest.kiosk.dto.StoreResponseDto;
-import blowest.kiosk.entity.Store;
-import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.StoreRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import javax.persistence.NoResultException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,6 +43,9 @@ class StoreServiceTest {
     @Test
     @DisplayName("모든 Store 조회 테스트")
     public void testRetrieveAllStores() {
+        assertThrows(NoResultException.class,
+                storeService::retrieveAllStores);
+
         int size = 3;
         List<Long> generatedStoreIds = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -62,4 +60,5 @@ class StoreServiceTest {
             assertThat(storeResponseDtoList.get(i).getName()).isEqualTo("가게" + i);
         }
     }
+
 }
