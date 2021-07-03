@@ -41,8 +41,8 @@ public class Menu extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private MenuType menuType;
 
-    public static Menu construct(String imagePath, String name, Integer cost,
-                                 TierStatus tierStatus, ActivationStatus activationStatus, TopMenu topMenu, MenuType menuType) {
+    public static Menu create(String imagePath, String name, Integer cost,
+                              TierStatus tierStatus, ActivationStatus activationStatus, TopMenu topMenu, MenuType menuType) {
         var menu = new Menu();
         menu.imagePath = imagePath;
         menu.name = name;

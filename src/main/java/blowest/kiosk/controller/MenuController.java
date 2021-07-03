@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 @RequiredArgsConstructor
 public class MenuController {
 
@@ -19,6 +19,8 @@ public class MenuController {
     public Long create(@RequestBody MenuRequestDto requestDto) {
         return menuService.create(requestDto);
     }
+
+//    @GetMapping("/top_menus/{id}/menus")
 
     @GetMapping("/menus")
     public List<MenuResponseDto> retrieveAll() {
