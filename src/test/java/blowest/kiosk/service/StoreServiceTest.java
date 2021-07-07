@@ -48,6 +48,9 @@ class StoreServiceTest {
     @Test
     @DisplayName("모든 Store 조회 테스트")
     public void testRetrieveAllStores() {
+        assertThrows(NoResultException.class,
+                () -> storeService.retrieveAllStores());
+
         int size = 3;
         List<Long> generatedStoreIds = new ArrayList<>();
         for (int i = 0; i < size; i++) {

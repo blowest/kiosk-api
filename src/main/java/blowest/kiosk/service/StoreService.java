@@ -5,6 +5,7 @@ import blowest.kiosk.dto.StoreResponseDto;
 import blowest.kiosk.entity.status.ActivationStatus;
 import blowest.kiosk.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

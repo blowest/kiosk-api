@@ -17,8 +17,14 @@
 
 ## Todos
 1. ~~Swagger 추가~~
-2. ~~AWS server 배포~~
+2. AWS server 배포
+    * EC2
+        * Java 11설치
+        * Timezone 변경
+        * HostName 변경
+    * ~~RDS~~
 3. ~~DB 수정~~
+4. 
 3. topmenu와 menutype의 통합?
 3. updatedate, createdate 적용 여부 결정
 3. 세트, 행사, 할인
