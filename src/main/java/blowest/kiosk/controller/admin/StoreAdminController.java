@@ -1,4 +1,4 @@
-package blowest.kiosk.controller;
+package blowest.kiosk.controller.admin;
 
 import blowest.kiosk.dto.StoreRequestDto;
 import blowest.kiosk.dto.StoreResponseDto;
@@ -11,9 +11,9 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
-public class StoreController {
+public class StoreAdminController {
 
     private final StoreService storeService;
 
