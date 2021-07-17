@@ -1,5 +1,6 @@
 package blowest.kiosk.controller;
 
+import blowest.kiosk.dto.MenuPagedResponseDto;
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
 import blowest.kiosk.service.MenuService;
@@ -49,9 +50,14 @@ public class MenuController {
         return;
     }
 
+    @GetMapping("/top_menus/{id}/menus/count")
+    public Long countMenusRetrievedByTopMenuId(@PathVariable(name = "id") Long topMenuId) {
+        return menuService.countMenusRetrievedByTopMenuId(topMenuId);
+    }
+
     @GetMapping("/top_menus/{id}/menus")
-    public List<MenuResponseDto> retrieveByTopMenuId(@PathVariable(name = "id") Long topMenuId) {
-        return menuService.retrieveMenusByTopMenuId(topMenuId);
+    public MenuPagedResponseDto retrieveByTopMenuId(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
+        return menuService.retrieveMenusByTopMenuId(topMenuId, offset, size);
     }
 
 
