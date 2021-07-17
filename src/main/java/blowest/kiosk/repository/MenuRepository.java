@@ -20,4 +20,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     @Query("select m from Menu m where m.id = :id and m.activationStatus = 'DEACTIVATED'")
     Optional<Menu> findOneDeactivated(@Param("id") Long id);
 
+    List<Menu> findAllActivatedByTopMenuId(Long topMenuId);
+
 }

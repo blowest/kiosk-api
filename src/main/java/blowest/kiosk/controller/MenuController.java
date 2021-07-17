@@ -49,5 +49,10 @@ public class MenuController {
         return;
     }
 
+    @GetMapping("/top_menus/{id}/menus")
+    public List<MenuResponseDto> retrieveByTopMenuId(@PathVariable(name = "id") Long topMenuId) {
+        return menuService.retrieveMenusByTopMenuId(topMenuId);
+    }
+
 
 }
