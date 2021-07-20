@@ -1,14 +1,9 @@
 package blowest.kiosk.controller;
 
 import blowest.kiosk.dto.MenuPagedResponseDto;
-import blowest.kiosk.dto.MenuResponseDto;
-import blowest.kiosk.repository.MenuDslRepository;
 import blowest.kiosk.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")

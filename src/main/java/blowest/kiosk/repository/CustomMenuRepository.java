@@ -13,7 +13,7 @@ import java.util.List;
 import static blowest.kiosk.entity.QMenu.menu;
 
 @Repository
-public class MenuDslRepository {
+public class CustomMenuRepository {
 
     @PersistenceContext
     EntityManager em;

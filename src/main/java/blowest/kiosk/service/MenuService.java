@@ -3,7 +3,7 @@ package blowest.kiosk.service;
 import blowest.kiosk.dto.MenuPagedResponseDto;
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
-import blowest.kiosk.repository.MenuDslRepository;
+import blowest.kiosk.repository.CustomMenuRepository;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import blowest.kiosk.util.Pagination;
@@ -26,7 +26,7 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    private final MenuDslRepository menuDslRepository;
+    private final CustomMenuRepository customMenuRepository;
 
     @Transactional
     public Long create(MenuRequestDto requestDto) {
@@ -106,7 +106,7 @@ public class MenuService {
     }
 
     public MenuPagedResponseDto retrieveMenusByTopMenuIdV2(Long topMenuId, int offset, int size) {
-        var result = menuDslRepository.findMenusWithPagination(topMenuId, offset, size);
+        var result = customMenuRepository.findMenusWithPagination(topMenuId, offset, size);
 
         var totalPages = Pagination.getTotalPages(result.getTotal(), size);
         var totalMenus = result.getTotal();
