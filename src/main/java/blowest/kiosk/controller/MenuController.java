@@ -1,53 +1,34 @@
 package blowest.kiosk.controller;
 
-import blowest.kiosk.dto.MenuRequestDto;
+import blowest.kiosk.dto.MenuPagedResponseDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.repository.MenuDslRepository;
 import blowest.kiosk.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class MenuController {
 
     private final MenuService menuService;
 
-    @PostMapping("/menus")
-    public Long create(@RequestBody MenuRequestDto requestDto) {
-        return menuService.create(requestDto);
+    @GetMapping("/v1/top_menus/{id}/menus/count")
+    public Long countMenusRetrievedByTopMenuId(@PathVariable(name = "id") Long topMenuId) {
+        return menuService.countMenusRetrievedByTopMenuId(topMenuId);
     }
 
-//    @GetMapping("/top_menus/{id}/menus")
-
-    @GetMapping("/menus")
-    public List<MenuResponseDto> retrieveAll() {
-        return menuService.retrieveAll();
+    @GetMapping("/v1/top_menus/{id}/menus")
+    public MenuPagedResponseDto retrieveByTopMenuId(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
+        return menuService.retrieveMenusByTopMenuId(topMenuId, offset, size);
     }
 
-    @GetMapping("/menus/{id}")
-    public MenuResponseDto retrieve(@PathVariable Long id) {
-        return menuService.retrieve(id);
+    @GetMapping("/v2/top_menus/{id}/menus")
+    public MenuPagedResponseDto retrieveByTopMenuIdV2(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
+        return menuService.retrieveMenusByTopMenuIdV2(topMenuId, offset, size);
     }
-
-    @PatchMapping("/menus/{id}")
-    public Long update(@PathVariable Long id, @RequestBody MenuRequestDto requestDto) {
-        return menuService.update(id, requestDto);
-    }
-
-    @DeleteMapping("/menus/{id}")
-    public void deactivateStore(@PathVariable Long id) {
-        menuService.deactivate(id);
-        return;
-    }
-
-    @PostMapping("/menus/{id}/activate")
-    public void activateStore(@PathVariable Long id) {
-        menuService.activate(id);
-        return;
-    }
-
-
 }

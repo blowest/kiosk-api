@@ -1,10 +1,15 @@
 package blowest.kiosk.service;
 
+import blowest.kiosk.dto.MenuPagedResponseDto;
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.repository.MenuDslRepository;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.TopMenuRepository;
+import blowest.kiosk.util.Pagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +26,34 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
+    private final MenuDslRepository menuDslRepository;
+
     @Transactional
     public Long create(MenuRequestDto requestDto) {
         var topMenu = topMenuRepository.findOneActivated(requestDto.getTopMenuId())
                 .orElseThrow(() -> new NoResultException("등록된 상위메뉴 정보가 없습니다."));
 
         return menuRepository.save(requestDto.toEntity(topMenu)).getId();
+    }
+
+    public Long countMenusRetrievedByTopMenuId(Long topMenuId) {
+        var byTopMenuId = menuRepository.countMenusByTopMenuId(topMenuId);
+        if (byTopMenuId.isEmpty()) throw new NoResultException("상위메뉴 아이디에 해당하는 메뉴가 없습니다.");
+
+        return byTopMenuId.get();
+    }
+
+    public MenuPagedResponseDto retrieveMenusByTopMenuId(Long topMenuId, int offset, int size) {
+        PageRequest pageRequest = PageRequest.of(offset, size, Sort.by(Sort.Direction.ASC, "id"));
+        var result = menuRepository.findMenusByTopMenuId(topMenuId, pageRequest);
+
+        var totalPages = result.getTotalPages();
+        var totalMenus = result.getTotalElements();
+        var menus = result.getContent();
+        var menuResponseDtoList = menus.stream().map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(),
+                x.getCost(), x.getTierStatus())).collect(Collectors.toList());
+
+        return MenuPagedResponseDto.create(totalPages, totalMenus, menuResponseDtoList);
     }
 
     public List<MenuResponseDto> retrieveAll() {
@@ -36,14 +63,14 @@ public class MenuService {
         }
         return menus
                 .stream()
-                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getName(), x.getCost(), x.getTierStatus()))
+                .map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(), x.getCost(), x.getTierStatus()))
                 .collect(Collectors.toList());
     }
 
     public MenuResponseDto retrieve(Long id) {
         var menu = menuRepository.findOneActivated(id)
                 .orElseThrow(() -> new NoResultException("해당하는 메뉴정보가 없습니다."));
-        return MenuResponseDto.construct(menu.getId(), menu.getImagePath(), menu.getName(), menu.getCost(), menu.getTierStatus());
+        return MenuResponseDto.create(menu.getId(), menu.getImagePath(), menu.getName(), menu.getCost(), menu.getTierStatus());
     }
 
     @Transactional
@@ -76,5 +103,18 @@ public class MenuService {
         menu.activate();
 
         return;
+    }
+
+    public MenuPagedResponseDto retrieveMenusByTopMenuIdV2(Long topMenuId, int offset, int size) {
+        var result = menuDslRepository.findMenusWithPagination(topMenuId, offset, size);
+
+        var totalPages = Pagination.getTotalPages(result.getTotal(), size);
+        var totalMenus = result.getTotal();
+        var menus = result.getResults();
+
+        var menuResponseDtoList = menus.stream().map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(),
+                x.getCost(), x.getTierStatus())).collect(Collectors.toList());
+
+        return MenuPagedResponseDto.create(totalPages, totalMenus, menuResponseDtoList);
     }
 }

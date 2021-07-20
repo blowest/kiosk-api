@@ -25,7 +25,7 @@ public class MenuResponseDto {
     @Enumerated(EnumType.STRING)
     private TierStatus tierStatus;
 
-    public static MenuResponseDto construct(Long id, String imagePath, String name, Integer cost, TierStatus tierStatus) {
+    public static MenuResponseDto create(Long id, String imagePath, String name, Integer cost, TierStatus tierStatus) {
         var menuResponseDto = new MenuResponseDto();
         menuResponseDto.id = id;
         menuResponseDto.imagePath = imagePath;
