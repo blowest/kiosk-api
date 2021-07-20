@@ -2,11 +2,13 @@ package blowest.kiosk.controller.admin;
 
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.repository.MenuDslRepository;
 import blowest.kiosk.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
@@ -14,6 +16,8 @@ import java.util.List;
 public class MenuAdminController {
 
     private final MenuService menuService;
+
+    private final MenuDslRepository menuDslRepository;
 
     @PostMapping("/menus")
     public Long create(@RequestBody MenuRequestDto requestDto) {
@@ -45,5 +49,12 @@ public class MenuAdminController {
     public void activateStore(@PathVariable Long id) {
         menuService.activate(id);
         return;
+    }
+
+    @GetMapping("/v2/menus")
+    public List<MenuResponseDto> retrieveAllMenus() {
+        var allMenu = menuDslRepository.findAllMenu();
+        return allMenu.stream().map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(),
+                x.getCost(), x.getTierStatus())).collect(Collectors.toList());
     }
 }

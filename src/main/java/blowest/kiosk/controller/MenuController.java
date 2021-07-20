@@ -29,14 +29,6 @@ public class MenuController {
         return menuService.retrieveMenusByTopMenuId(topMenuId, offset, size);
     }
 
-    // 테스트용
-    @GetMapping("/v1/menus")
-    public List<MenuResponseDto> retrieveAllMenus() {
-        var allMenu = menuDslRepository.findAllMenu();
-        return allMenu.stream().map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(),
-                x.getCost(), x.getTierStatus())).collect(Collectors.toList());
-    }
-
     @GetMapping("/v2/top_menus/{id}/menus")
     public MenuPagedResponseDto retrieveByTopMenuIdV2(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
         return menuService.retrieveMenusByTopMenuIdV2(topMenuId, offset, size);
