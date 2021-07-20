@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class MenuController {
 
@@ -19,22 +19,26 @@ public class MenuController {
 
     private final MenuDslRepository menuDslRepository;
 
-    @GetMapping("/top_menus/{id}/menus/count")
+    @GetMapping("/v1/top_menus/{id}/menus/count")
     public Long countMenusRetrievedByTopMenuId(@PathVariable(name = "id") Long topMenuId) {
         return menuService.countMenusRetrievedByTopMenuId(topMenuId);
     }
 
-    @GetMapping("/top_menus/{id}/menus")
+    @GetMapping("/v1/top_menus/{id}/menus")
     public MenuPagedResponseDto retrieveByTopMenuId(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
         return menuService.retrieveMenusByTopMenuId(topMenuId, offset, size);
     }
 
-    @GetMapping("/menus")
+    // 테스트용
+    @GetMapping("/v1/menus")
     public List<MenuResponseDto> retrieveAllMenus() {
         var allMenu = menuDslRepository.findAllMenu();
         return allMenu.stream().map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(),
                 x.getCost(), x.getTierStatus())).collect(Collectors.toList());
     }
 
-
+    @GetMapping("/v2/top_menus/{id}/menus")
+    public MenuPagedResponseDto retrieveByTopMenuIdV2(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
+        return menuService.retrieveMenusByTopMenuIdV2(topMenuId, offset, size);
+    }
 }

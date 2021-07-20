@@ -1,9 +1,8 @@
 package blowest.kiosk.repository;
 
 import blowest.kiosk.entity.Menu;
-import blowest.kiosk.entity.QMenu;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,6 @@ import java.util.List;
 import static blowest.kiosk.entity.QMenu.menu;
 
 @Repository
-@RequiredArgsConstructor
 public class MenuDslRepository {
 
     @PersistenceContext
@@ -32,5 +30,14 @@ public class MenuDslRepository {
                 .from(menu)
                 .orderBy(menu.id.asc())
                 .fetch();
+    }
+
+    public QueryResults<Menu> findMenusWithPagination(Long topMenuId, int offset, int pageSize) {
+        return queryFactory.selectFrom(menu)
+                .where(menu.topMenu.id.eq(topMenuId))
+                .orderBy(menu.id.asc())
+                .offset(offset)
+                .limit(pageSize)
+                .fetchResults();
     }
 }

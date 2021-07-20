@@ -3,8 +3,10 @@ package blowest.kiosk.service;
 import blowest.kiosk.dto.MenuPagedResponseDto;
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.repository.MenuDslRepository;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.TopMenuRepository;
+import blowest.kiosk.util.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,6 +25,8 @@ public class MenuService {
     private final TopMenuRepository topMenuRepository;
 
     private final MenuRepository menuRepository;
+
+    private final MenuDslRepository menuDslRepository;
 
     @Transactional
     public Long create(MenuRequestDto requestDto) {
@@ -99,5 +103,18 @@ public class MenuService {
         menu.activate();
 
         return;
+    }
+
+    public MenuPagedResponseDto retrieveMenusByTopMenuIdV2(Long topMenuId, int offset, int size) {
+        var result = menuDslRepository.findMenusWithPagination(topMenuId, offset, size);
+
+        var totalPages = Pagination.getTotalPages(result.getTotal(), size);
+        var totalMenus = result.getTotal();
+        var menus = result.getResults();
+
+        var menuResponseDtoList = menus.stream().map(x -> MenuResponseDto.create(x.getId(), x.getImagePath(), x.getName(),
+                x.getCost(), x.getTierStatus())).collect(Collectors.toList());
+
+        return MenuPagedResponseDto.create(totalPages, totalMenus, menuResponseDtoList);
     }
 }

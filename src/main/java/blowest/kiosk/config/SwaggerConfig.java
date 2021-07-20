@@ -26,7 +26,7 @@ public class SwaggerConfig {
                 .apiInfo(getApiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("blowest.kiosk.controller"))
-                .paths(PathSelectors.ant("/v1/**"))
+                .paths(PathSelectors.ant("/api/**"))
                 .build();
     }
 

@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class TopMenuController {
 
     private final TopMenuService topMenuService;
 
-    @GetMapping("/top_menus")
+    @GetMapping("/v1/top_menus")
     public List<TopMenuResponseDto> retrieveAll() {
         return topMenuService.retrieveAll();
     }
