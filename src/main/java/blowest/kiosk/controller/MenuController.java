@@ -17,8 +17,6 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    private final MenuDslRepository menuDslRepository;
-
     @GetMapping("/v1/top_menus/{id}/menus/count")
     public Long countMenusRetrievedByTopMenuId(@PathVariable(name = "id") Long topMenuId) {
         return menuService.countMenusRetrievedByTopMenuId(topMenuId);
