@@ -1,6 +1,11 @@
 version: "3.9"
 
 services:
+  server:
+    image: kiosk-api:0.0.1
+    ports:
+      - 8080:8080
+
   db:
     image: mysql:8
     restart: always
