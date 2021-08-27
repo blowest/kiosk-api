@@ -1,11 +1,20 @@
 version: "3.9"
 
 services:
-  db:
-    image: postgres:13.2
-    environment:
-      - POSTGRES_USER=kiosk
-      - POSTGRES_PASSWORD=kiosk
+  server:
+    image: kiosk-api:0.0.1
     ports:
-      - "5432:5432"
-    restart: unless-stopped
+      - 8080:8080
+
+  db:
+    image: mysql:8
+    restart: always
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: kiosk
+      MYSQL_DATABASE: kiosk
+#      TZ: Asia/Seoul
+    ports:
+      - 3306:3306
