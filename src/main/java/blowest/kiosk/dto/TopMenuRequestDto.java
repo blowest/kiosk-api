@@ -14,9 +14,6 @@ public class TopMenuRequestDto {
 
     private String name;
 
-    @JsonProperty("store_id")
-    private Long storeId;
-
     public TopMenu toEntity(Store store) {
         return TopMenu.construct(name, ActivationStatus.ACTIVATED, store);
     }

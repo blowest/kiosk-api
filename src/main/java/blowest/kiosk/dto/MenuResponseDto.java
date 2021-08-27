@@ -15,7 +15,6 @@ public class MenuResponseDto {
 
     private Long id;
 
-    @JsonProperty("image_path")
     private String imagePath;
 
     private String name;

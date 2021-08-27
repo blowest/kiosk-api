@@ -2,14 +2,13 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.TopMenuRequestDto;
 import blowest.kiosk.dto.TopMenuResponseDto;
-import blowest.kiosk.entity.status.ActivationStatus;
+import blowest.kiosk.entity.TopMenu;
 import blowest.kiosk.repository.StoreRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,10 +23,21 @@ public class TopMenuService {
 
     @Transactional
     public Long create(TopMenuRequestDto requestDto) {
-        var store = storeRepository.findOneActivated(requestDto.getStoreId())
-                .orElseThrow(() -> new NoResultException("해당하는 상위메뉴 정보가 없습니다."));
+        var store = storeRepository.findOneActivated(1L)
+                .orElseThrow(() -> new NoResultException("해당하는 가게 정보가 없습니다."));
 
         return topMenuRepository.save(requestDto.toEntity(store)).getId();
+    }
+
+    @Transactional
+    public List<Long> createTopMenus(List<TopMenuRequestDto> requestDto) {
+        var store = storeRepository.findOneActivated(1L)
+                .orElseThrow(() -> new NoResultException("해당하는 가게 정보가 없습니다."));
+
+        var topMenus= requestDto.stream().map(x -> x.toEntity(store)).collect(Collectors.toList());
+        topMenuRepository.saveAll(topMenus);
+
+        return topMenus.stream().map(TopMenu::getId).collect(Collectors.toList());
     }
 
     public List<TopMenuResponseDto> retrieveAll() {
@@ -52,7 +62,7 @@ public class TopMenuService {
 
     @Transactional
     public Long update(Long id, TopMenuRequestDto requestDto) {
-        var store = storeRepository.findOneActivated(requestDto.getStoreId())
+        var store = storeRepository.findOneActivated(1L)
                 .orElseThrow(() -> new NoResultException("해당하는 가게가 없습니다."));
         var topMenu = topMenuRepository.findOneActivated(id)
                 .orElseThrow(() -> new NoResultException("해당 상위메뉴가 없습니다."));

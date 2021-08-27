@@ -15,10 +15,8 @@ public class StoreResponseDto {
 
     private String name;
 
-    @JsonProperty("created_date")
     private LocalDateTime createdDate;
 
-    @JsonProperty("last_modified_date")
     private LocalDateTime lastModifiedDate;
 
     public static StoreResponseDto construct(Long id, String name, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {

@@ -1,9 +1,12 @@
 package blowest.kiosk.controller;
 
 import blowest.kiosk.dto.MenuPagedResponseDto;
+import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -25,5 +28,10 @@ public class MenuController {
     @GetMapping("/v2/top_menus/{id}/menus")
     public MenuPagedResponseDto retrieveByTopMenuIdV2(@PathVariable(name = "id") Long topMenuId, @RequestParam int offset, @RequestParam int size) {
         return menuService.retrieveMenusByTopMenuIdV2(topMenuId, offset, size);
+    }
+
+    @PostMapping("/v1/menus")
+    public List<Long> createMenus(@RequestBody List<MenuRequestDto> request) {
+        return menuService.createMenus(request);
     }
 }

@@ -3,6 +3,7 @@ package blowest.kiosk.service;
 import blowest.kiosk.dto.MenuPagedResponseDto;
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.entity.Menu;
 import blowest.kiosk.repository.CustomMenuRepository;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.TopMenuRepository;
@@ -34,6 +35,17 @@ public class MenuService {
                 .orElseThrow(() -> new NoResultException("등록된 상위메뉴 정보가 없습니다."));
 
         return menuRepository.save(requestDto.toEntity(topMenu)).getId();
+    }
+
+    @Transactional
+    public List<Long> createMenus(List<MenuRequestDto> request) {
+        var menus = request.stream().map(x ->
+                x.toEntity(
+                        topMenuRepository.findOneActivated(x.getTopMenuId()).orElseThrow(
+                                () -> new NoResultException("등록된 상위메뉴 정보가 없습니다.")
+                        )
+                )).collect(Collectors.toList());
+        return menuRepository.saveAll(menus).stream().map(x -> x.getId()).collect(Collectors.toList());
     }
 
     public Long countMenusRetrievedByTopMenuId(Long topMenuId) {

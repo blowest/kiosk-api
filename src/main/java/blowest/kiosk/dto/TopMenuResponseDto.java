@@ -15,13 +15,10 @@ public class TopMenuResponseDto {
 
     private String name;
 
-    @JsonProperty("store_id")
     private Long storeId;
 
-    @JsonProperty("created_date")
     private LocalDateTime createdDate;
 
-    @JsonProperty("last_modified_date")
     private LocalDateTime lastModifiedDate;
 
     public static TopMenuResponseDto construct(Long id, String name, Long storeId, LocalDateTime createdDate, LocalDateTime lastModifiedDate) {

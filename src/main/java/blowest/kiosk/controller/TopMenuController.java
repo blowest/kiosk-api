@@ -4,7 +4,6 @@ import blowest.kiosk.dto.TopMenuRequestDto;
 import blowest.kiosk.dto.TopMenuResponseDto;
 import blowest.kiosk.service.TopMenuService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,4 +20,8 @@ public class TopMenuController {
         return topMenuService.retrieveAll();
     }
 
+    @PostMapping("/v1/top_menus")
+    public List<Long> createTopMenus(@RequestBody List<TopMenuRequestDto> request) {
+        return topMenuService.createTopMenus(request);
+    }
 }

@@ -17,7 +17,6 @@ import javax.persistence.Enumerated;
 @Getter
 public class MenuRequestDto {
 
-    @JsonProperty("image_path")
     private String imagePath;
 
     private String name;
@@ -27,13 +26,10 @@ public class MenuRequestDto {
     @Enumerated(EnumType.STRING)
     private TierStatus tierStatus;
 
-    @JsonProperty("minimum_cost")
     private Integer minimumCost;
 
-    @JsonProperty("menu_type")
     private MenuType menuType;
 
-    @JsonProperty("top_menu_id")
     private Long topMenuId;
 
     public Menu toEntity(TopMenu topMenu) {
