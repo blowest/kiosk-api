@@ -22,6 +22,7 @@ public class MenuController {
 
 //    @GetMapping("/top_menus/{id}/menus")
 
+
     @GetMapping("/menus")
     public List<MenuResponseDto> retrieveAll() {
         return menuService.retrieveAll();
