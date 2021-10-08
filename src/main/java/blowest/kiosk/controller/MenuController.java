@@ -35,7 +35,7 @@ public class MenuController {
     }
 
     @GetMapping("/menus/findBest")
-    public List<MenuResponseDto> retrieveBest(@RequestParam(value = "TierStatus", required = false)TierStatus tierStatus){
+    public List<MenuResponseDto> retrieveBest(@RequestParam(value = "TierStatus", requiredd = false)TierStatus tierStatus){
         return menuService.retrieveBest(tierStatus);
     }
 
