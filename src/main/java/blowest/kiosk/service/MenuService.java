@@ -2,6 +2,7 @@ package blowest.kiosk.service;
 
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.entity.status.TierStatus;
 import blowest.kiosk.repository.MenuRepository;
 import blowest.kiosk.repository.TopMenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +48,17 @@ public class MenuService {
         return MenuResponseDto.construct(menu.getId(), menu.getImagePath(), menu.getName(), menu.getCost(), menu.getTierStatus());
     }
 
+    public List<MenuResponseDto> retrieveBest(TierStatus tierStatus) {
+        var menus =  menuRepository.findAllBest(tierStatus);
+        if (menus.isEmpty()){
+            throw new NoResultException("베스트 메뉴가 없습니다.");
+        }
+        return menus
+                .stream()
+                .map(x -> MenuResponseDto.construct(x.getId(), x.getImagePath(), x.getName(), x.getCost(), x.getTierStatus()))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Long update(Long id, MenuRequestDto requestDto) {
         var topMenu = topMenuRepository.findById(requestDto.getTopMenuId())
@@ -78,4 +90,6 @@ public class MenuService {
 
         return;
     }
+
+
 }

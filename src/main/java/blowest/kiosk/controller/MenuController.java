@@ -2,6 +2,7 @@ package blowest.kiosk.controller;
 
 import blowest.kiosk.dto.MenuRequestDto;
 import blowest.kiosk.dto.MenuResponseDto;
+import blowest.kiosk.entity.status.TierStatus;
 import blowest.kiosk.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,11 @@ public class MenuController {
     @GetMapping("/menus/{id}")
     public MenuResponseDto retrieve(@PathVariable Long id) {
         return menuService.retrieve(id);
+    }
+
+    @GetMapping("/menus/findBest")
+    public List<MenuResponseDto> retrieveBest(@RequestParam(value = "TierStatus", required = false)TierStatus tierStatus){
+        return menuService.retrieveBest(tierStatus);
     }
 
     @PatchMapping("/menus/{id}")

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface MenuRepository extends JpaRepository<Menu, Long> {
+public interface MenuRepository extends JpaRepository<Menu, Long> , MenuCustomRepository{
 
     @Query("select m from Menu m where m.activationStatus = 'ACTIVATED' order by m.id asc")
     List<Menu> findAllActivated();
@@ -19,5 +19,9 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     @Query("select m from Menu m where m.id = :id and m.activationStatus = 'DEACTIVATED'")
     Optional<Menu> findOneDeactivated(@Param("id") Long id);
+
+
+//    @Query("select m from Menu m where m.tierStatus = 'BEST' order by m.id asc")
+//    List<Menu> findAllBest();
 
 }

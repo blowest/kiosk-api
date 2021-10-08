@@ -9,7 +9,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class DataGenerator implements ApplicationRunner {
 
     private final StoreRepository storeRepository;
@@ -39,7 +39,7 @@ public class DataGenerator implements ApplicationRunner {
         var side = topMenuRepository.save(TopMenu.construct("사이드", ActivationStatus.ACTIVATED, burgerking));
         var beverageAndDessert = topMenuRepository.save(TopMenu.construct("음료&디저트", ActivationStatus.ACTIVATED, burgerking));
 
-        menuRepository.save(Menu.create("./images/xxx", "몬스터X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
+        menuRepository.save(Menu.create("./images/xxx", "몬스터X", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "통새우X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "콰트로치즈X", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "기네스통베이컨와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
@@ -50,7 +50,7 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.create("./images/xxx", "콰트로치즈와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "통새우와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, premium, MenuType.BURGER));
 
-        menuRepository.save(Menu.create("./images/xxx", "통베이컨와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
+        menuRepository.save(Menu.create("./images/xxx", "통베이컨와퍼", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "스태커2와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "스태커3와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "스태커4와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
@@ -58,7 +58,7 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.create("./images/xxx", "치즈와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "베이컨치즈와퍼", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, whopper, MenuType.BURGER));
 
-        menuRepository.save(Menu.create("./images/xxx", "아기상어새우버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
+        menuRepository.save(Menu.create("./images/xxx", "아기상어새우버거", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "엄마상어새우버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "아빠상어새우버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "고추장 소불고기버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
@@ -70,11 +70,11 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.create("./images/xxx", "치즈와퍼주니어", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "치즈버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, juniorAndBurger, MenuType.BURGER));
 
-        menuRepository.save(Menu.create("./images/xxx", "바비큐킹치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
+        menuRepository.save(Menu.create("./images/xxx", "바비큐킹치킨버거", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "킹치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
         menuRepository.save(Menu.create("./images/xxx", "통치킨버거", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, alldaykingAndChicken, MenuType.BURGER));
 
-        menuRepository.save(Menu.create("./images/xxx", "쉐이킹프라이", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
+        menuRepository.save(Menu.create("./images/xxx", "쉐이킹프라이", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
         menuRepository.save(Menu.create("./images/xxx", "바삭킹8조각+소스", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
         menuRepository.save(Menu.create("./images/xxx", "바삭킹", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
         menuRepository.save(Menu.create("./images/xxx", "21치즈스틱", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
@@ -89,7 +89,7 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.create("./images/xxx", "콘샐러드", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
         menuRepository.save(Menu.create("./images/xxx", "사이드소스", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, side, MenuType.SIDE));
 
-        menuRepository.save(Menu.create("./images/xxx", "제로톡톡", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
+        menuRepository.save(Menu.create("./images/xxx", "제로톡톡", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
         menuRepository.save(Menu.create("./images/xxx", "아메리카노", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
         menuRepository.save(Menu.create("./images/xxx", "핫/아이스초코", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
         menuRepository.save(Menu.create("./images/xxx", "씨그램", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
@@ -99,7 +99,7 @@ public class DataGenerator implements ApplicationRunner {
         menuRepository.save(Menu.create("./images/xxx", "미닛메이드 오렌지", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
         menuRepository.save(Menu.create("./images/xxx", "순수(미네랄워터)", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.BEVERAGE));
 
-        menuRepository.save(Menu.create("./images/xxx", "선데 초코바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
+        menuRepository.save(Menu.create("./images/xxx", "선데 초코바나나", 8500, TierStatus.BEST, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
         menuRepository.save(Menu.create("./images/xxx", "선데 딸기바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
         menuRepository.save(Menu.create("./images/xxx", "선데 바나나", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
         menuRepository.save(Menu.create("./images/xxx", "선데", 8500, TierStatus.NORMAL, ActivationStatus.ACTIVATED, beverageAndDessert, MenuType.DESSERT));
